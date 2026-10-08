@@ -3,8 +3,8 @@ import streamlit.components.v1 as components
 
 # 웹 브라우저 탭 네임 및 기본 설정
 st.set_page_config(
-    page_title="📖 스마트 학습 & 통합과학2 대방출",
-    page_icon="📖",
+    page_title="🎮 스마트 미니게임천국",
+    page_icon="🎮",
     layout="centered"
 )
 
@@ -18,404 +18,36 @@ def set_screen(screen_name):
 # 🏠 1. 메인 홈 화면
 # ==========================================
 if st.session_state.current_screen == "home":
-    st.markdown("<h1 style='text-align: center; color: #38bdf8;'>📖 스마트 학습 & 통합과학2 대방출 📖</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 16px; color: #bbb;'>통합과학2 전 소단원 완전 정복, 공부 타이머 & 오답노트 통합 스마트 학습 앱</p>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #38bdf8;'>🎮 스마트 미니게임천국 🎮</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 16px; color: #bbb;'>다양한 재미의 아케이드 시뮬레이터 미니게임 모음</p>", unsafe_allow_html=True)
     st.divider()
 
-    col1, col2 = st.columns(2)
-    col3, col4 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("🧪 통합과학2 전단원 퀴즈")
-        st.write("소단원별 전면 개편! 타이머, 오답노트 기능 지원 및 문제 풀이 시 🪙 코인 보상.")
-        st.button("🧪 통합과학2 공부하기", on_click=set_screen, args=("science",), use_container_width=True, type="primary")
+        st.subheader("🏎️ 7인 카트 레이싱")
+        st.write("3분 완주 초장거리 트랙! 직관적인 출발 방향 화살표 표시 & 정밀 타이머 측정.")
+        st.button("🏎️ 레이싱 플레이", on_click=set_screen, args=("racing",), use_container_width=True, type="primary")
 
     with col2:
-        st.subheader("🏎️ 7인 카트 레이싱")
-        st.write("10가지 테마 트랙, AI 무작위 동시 출발, 2개 아이템 슬롯 및 최고 기록 저장.")
-        st.button("🏎️ 레이싱 플레이", on_click=set_screen, args=("racing",), use_container_width=True)
+        st.subheader("🚗 장애물 피하기")
+        st.write("콘크리트 천장 디자인 건물, 랜덤 횡단보도 연출 & 완전 재설정 기능.")
+        st.button("🚗 피하기 플레이", on_click=set_screen, args=("obstacle",), use_container_width=True, type="primary")
 
     with col3:
-        st.subheader("🚗 장애물 피하기")
-        st.write("횡단보도 도로 연출, 맞은편 차량 추가 & 디테일 실물 구조물 그래픽 적용.")
-        st.button("🚗 피하기 플레이", on_click=set_screen, args=("obstacle",), use_container_width=True)
-
-    with col4:
         st.subheader("🧗‍♂️ 건강의 다리")
-        st.write("50코인으로 200계단 폭풍 부스터(Z키)! 100단위 가속 시스템 & 기록 저장.")
-        st.button("🧗‍♂️ 건강의 다리 플레이", on_click=set_screen, args=("stairs",), use_container_width=True)
+        st.write("사망 시 캐릭터 다시 고르기 화면 복귀! 계단 간격 넓힘 & 코인 실시간 표시.")
+        st.button("🧗‍♂️ 건강의 다리 플레이", on_click=set_screen, args=("stairs",), use_container_width=True, type="primary")
 
 # ==========================================
-# 🧪 2. 통합과학2 전 소단원 개념, 오답노트 & 공부 타이머
-# ==========================================
-elif st.session_state.current_screen == "science":
-    col_nav1, col_nav2 = st.columns([1, 4])
-    with col_nav1:
-        st.button("🏠 메인으로", on_click=set_screen, args=("home",), use_container_width=True)
-    with col_nav2:
-        st.subheader("🧪 통합과학2 전체 소단원 스마트 학습 센터")
-
-    science_html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <style>
-            body { background-color: #0e1117; color: #fff; font-family: 'Malgun Gothic', sans-serif; padding: 10px; margin: 0; }
-            .timer-box { background: #0f172a; border: 2px solid #38bdf8; border-radius: 10px; padding: 12px; margin-bottom: 15px; text-align: center; display: flex; justify-content: space-between; align-items: center; }
-            .timer-display { font-size: 24px; font-weight: bold; color: #f1c40f; font-family: monospace; }
-            .btn-timer { padding: 6px 14px; font-size: 13px; font-weight: bold; border-radius: 5px; border: none; cursor: pointer; margin-left: 5px; }
-            
-            .tab-container { display: flex; gap: 4px; }
-            .tab-btn { padding: 10px 16px; font-size: 14px; font-weight: bold; background: #1e293b; color: #cbd5e1; border: 1px solid #334155; border-radius: 8px 8px 0 0; cursor: pointer; }
-            .tab-btn.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
-            .tab-content { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 0 8px 8px 8px; margin-bottom: 20px; }
-            
-            .concept-box { background: #0f172a; padding: 15px; border-left: 4px solid #38bdf8; border-radius: 6px; margin-bottom: 15px; }
-            .concept-title { color: #f1c40f; font-size: 16px; font-weight: bold; margin-bottom: 8px; }
-            .sub-title { color: #38bdf8; font-weight: bold; margin-top: 10px; margin-bottom: 4px; }
-            
-            .quiz-card { background: #0f172a; padding: 20px; border-radius: 10px; border: 1px solid #334155; }
-            .question-title { color: #38bdf8; font-size: 16px; font-weight: bold; margin-bottom: 12px; line-height: 1.5; }
-            .box-text { background: #1e293b; padding: 12px; border: 1px dashed #64748b; border-radius: 6px; font-size: 14px; margin-bottom: 15px; white-space: pre-line; color: #e2e8f0; }
-            .option-item { background: #1e293b; border: 1px solid #334155; padding: 10px 15px; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
-            .option-item:hover { background: #334155; border-color: #38bdf8; }
-            .option-item.selected { background: #0369a1; border-color: #38bdf8; font-weight: bold; }
-            .btn-action { padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 6px; border: none; cursor: pointer; margin-top: 15px; margin-right: 8px; }
-            .btn-submit { background: #27ae60; color: white; }
-            .btn-next { background: #e67e22; color: white; }
-            
-            .result-box { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
-            .result-success { background: rgba(39, 174, 96, 0.2); border: 1px solid #27ae60; color: #2ecc71; }
-            .result-fail { background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c; }
-            
-            .wrong-card { background: #0f172a; border: 1px solid #e74c3c; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-        </style>
-    </head>
-    <body>
-
-    <!-- ⏱️ 공부 타이머 바 -->
-    <div class="timer-box">
-        <div style="font-weight:bold; color:#cbd5e1;">⏱️ 학습 스톱워치: <span id="timerText" class="timer-display">00:00:00</span></div>
-        <div>
-            <button class="btn-timer" style="background:#27ae60; color:#fff;" onclick="startTimer()">시작</button>
-            <button class="btn-timer" style="background:#e67e22; color:#fff;" onclick="pauseTimer()">일시정지</button>
-            <button class="btn-timer" style="background:#7f8c8d; color:#fff;" onclick="resetTimer()">리셋</button>
-        </div>
-    </div>
-
-    <!-- 탭 버튼 -->
-    <div class="tab-container">
-        <button class="tab-btn active" id="btnTab1" onclick="switchTab(1)">📚 소단원 개념 요약</button>
-        <button class="tab-btn" id="btnTab2" onclick="switchTab(2)">🎲 무한 기출 문제</button>
-        <button class="tab-btn" id="btnTab3" onclick="switchTab(3)">📝 오답노트 (<span id="wrongCount">0</span>)</button>
-    </div>
-
-    <!-- 탭 1: 소단원 핵심 개념 -->
-    <div id="tab1" class="tab-content">
-        <h3 style="color:#f1c40f; margin-top:0;">📘 통합과학2 소단원별 완전 분석</h3>
-        
-        <div class="concept-box">
-            <div class="concept-title">Ⅰ. 변화와 다양성</div>
-            <div class="sub-title">1. 산화·환원과 일상생활</div>
-            <div>산소를 얻거나 전자를 잃으면 산화, 산소를 잃거나 전자를 얻으면 환원입니다. (광합성, 호흡, 철의 부식, 연소 반응)</div>
-            <div class="sub-title">2. 중화 반응</div>
-            <div>산($H^+$)과 염기($OH^-$)가 반응하여 물($H_2O$)과 염을 생성하며 중화열이 발생합니다. 지시약 색 변화와 온도 변화가 중요합니다.</div>
-            <div class="sub-title">3. 지질 시대와 생물 변천</div>
-            <div>선캄브리아 시대, 고생대(삼엽충), 중생대(공룡, 암모나이트), 신생대(화석)의 표준화석과 생물 대멸종을 다룹니다.</div>
-            <div class="sub-title">4. 자연선택과 진화</div>
-            <div>개체 변이 중에서 환경에 적합한 유리한 형질을 가진 개체가 선택되어 자손을 남기는 과정입니다.</div>
-            <div class="sub-title">5. 생물 다양성과 보전</div>
-            <div>유전적 다양성, 종 다양성, 생태계 다양성으로 구성되며 서식지 파괴 방지 및 보존 노력이 필요합니다.</div>
-        </div>
-
-        <div class="concept-box">
-            <div class="concept-title">Ⅱ. 환경과 에너지</div>
-            <div class="sub-title">1. 생태계와 환경 변화</div>
-            <div>먹이 사슬과 먹이 그물, 생태계 평형의 유지 조건 및 물질 순환과 에너지 흐름을 학습합니다.</div>
-            <div class="sub-title">2. 지구 환경 변화</div>
-            <div>온실가스 증가에 의한 지구 온난화 및 적도 수온이 상승하는 엘니뇨, 사막화 현상의 원인과 영향을 다룹니다.</div>
-            <div class="sub-title">3. 에너지 전환과 효율</div>
-            <div>에너지 보존 법칙에 의해 에너지는 전환되지만 열에너지로 산일되므로 열효율($\eta$) 관리가 중요합니다.</div>
-            <div class="sub-title">4. 발전과 전력 수송</div>
-            <div>전자기 유도를 이용한 화력/수력/핵발전과 손실 전력($P_{loss} = I^2 R$)을 줄이기 위한 고전압 송전 원리를 배웁니다.</div>
-            <div class="sub-title">5. 신재생 에너지</div>
-            <div>태양 광발전, 풍력 발전, 수소와 산소의 반응으로 물만 배출하는 친환경 수소 연료 전지 원리입니다.</div>
-        </div>
-
-        <div class="concept-box">
-            <div class="concept-title">Ⅲ. 과학기술과 인류</div>
-            <div class="sub-title">1. 신소재의 개발과 활용</div>
-            <div>임계 온도 이하 저항이 0이 되는 초전도체, 벌집 모양 탄소 구조 그래핀, 탄소나노튜브의 특성을 배웁니다.</div>
-            <div class="sub-title">2. 첨단 과학기술 & 3. 사회적 윤리</div>
-            <div>인공지능, 빅데이터 기술 발전과 생명 윤리, 정보 보호 등 기술 발전에 따른 사회적 책임을 학습합니다.</div>
-        </div>
-
-        <div class="concept-box">
-            <div class="concept-title">Ⅳ. 지구시스템과 우주</div>
-            <div class="sub-title">1. 지구시스템과 탄소 순환</div>
-            <div>기권, 수권, 지권, 생물권 사이에서 탄소가 이산화탄소, 탄산 이온, 석회암 등으로 순환하는 과정입니다.</div>
-            <div class="sub-title">2. 우주 원소의 탄생과 별의 진화</div>
-            <div>빅뱅 우주론(수소:헬륨 = 3:1), 별의 내부 핵융합 반응 및 주계열성, 초신성 폭발을 통해 무거운 원소가 생성됩니다.</div>
-        </div>
-    </div>
-
-    <!-- 탭 2: 문제 풀이 -->
-    <div id="tab2" class="tab-content" style="display:none;">
-        <div class="quiz-card">
-            <div id="quizChapter" style="color:#f1c40f; font-size:13px; font-weight:bold; margin-bottom:5px;">[단원 분류]</div>
-            <div class="question-title" id="quizQuestion">문제를 불러오는 중...</div>
-            <div class="box-text" id="quizBox" style="display:none;"></div>
-            <div id="quizOptions"></div>
-
-            <button class="btn-action btn-submit" onclick="checkAnswer()">정답 제출</button>
-            <button class="btn-action btn-next" onclick="loadRandomQuiz()">🎲 새로운 문제 풀기</button>
-
-            <div id="resultBox" class="result-box">
-                <div id="resultText" style="font-weight:bold; font-size:16px;"></div>
-                <div id="resultDesc" style="margin-top:8px; font-size:14px; color:#ddd; white-space:pre-line;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 탭 3: 오답노트 -->
-    <div id="tab3" class="tab-content" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <h3 style="color:#e74c3c; margin:0;">📝 나의 오답 노트</h3>
-            <button class="btn-action" style="background:#7f8c8d; color:white; padding:6px 12px; margin:0;" onclick="clearWrongNotes()">🗑️ 오답노트 비우기</button>
-        </div>
-        <div id="wrongNotesList">오답 기록이 없습니다. 틀린 문제가 이곳에 자동으로 저장됩니다!</div>
-    </div>
-
-    <script>
-        // 스톱워치 로직
-        let timerSeconds = 0, timerInterval = null;
-        function startTimer() {
-            if (timerInterval) return;
-            timerInterval = setInterval(() => {
-                timerSeconds++;
-                let h = String(Math.floor(timerSeconds / 3600)).padStart(2, '0');
-                let m = String(Math.floor((timerSeconds % 3600) / 60)).padStart(2, '0');
-                let s = String(timerSeconds % 60).padStart(2, '0');
-                document.getElementById("timerText").innerText = `${h}:${m}:${s}`;
-            }, 1000);
-        }
-        function pauseTimer() { clearInterval(timerInterval); timerInterval = null; }
-        function resetTimer() { pauseTimer(); timerSeconds = 0; document.getElementById("timerText").innerText = "00:00:00"; }
-
-        // 문제 은행 (소단원별 세분화)
-        const QUESTION_BANK = [
-            {
-                chapter: "Ⅰ. 변화와 다양성 (1. 산화·환원)",
-                question: "[완자 기출] 산화 및 환원 반응에 관한 설명으로 옳은 것만을 보기에서 고른 것은?",
-                box: "ㄱ. 전자를 잃는 반응을 산화라고 한다.\nㄴ. 산화와 환원은 독립적으로 발생할 수 있다.\nㄷ. 철이 부식하는 현상은 산화 반응에 속한다.",
-                options: ["① ㄱ", "② ㄴ", "③ ㄱ, ㄷ", "④ ㄴ, ㄷ", "⑤ ㄱ, ㄴ, ㄷ"],
-                answer: 2,
-                explanation: "전자를 잃는 것은 산화(ㄱ), 철에 산소가 결합해 부식되는 것도 산화(ㄷ)입니다. 산화-환원은 항상 동시에 일어납니다."
-            },
-            {
-                chapter: "Ⅰ. 변화와 다양성 (2. 중화 반응)",
-                question: "[천재교육 기출] 묽은 염산(HCl)과 수산화 나트륨(NaOH) 수용액을 혼합할 때의 설명으로 옳은 것은?",
-                options: [
-                    "① 수소 이온과 수산화 이온이 1:1 개수비로 반응하여 물이 생성된다.",
-                    "② 중화 반응이 진행되어도 혼합 수용액의 온도는 변하지 않는다.",
-                    "③ 중화점에 도달하면 페놀프탈레인 용액이 붉은색으로 변한다.",
-                    "④ 반응 후 알짜 이온은 나트륨 이온과 염화 이온이다.",
-                    "⑤ 산성과 염기성이 만나면 항상 이산화탄소 기체가 발생한다."
-                ],
-                answer: 0,
-                explanation: "중화 반응 시 H⁺와 OH⁻는 1:1 개수비로 결합하여 물(H₂O)을 만듭니다. 이때 온도가 최고점에 도달합니다."
-            },
-            {
-                chapter: "Ⅰ. 변화와 다양성 (4. 자연선택과 진화)",
-                question: "[완자 기출] 자연선택설에 따른 생물의 진화 과정 순서로 옳은 것은?",
-                box: "(가) 환경 변화 및 자연선택\n(나) 과잉 생산과 변이\n(다) 생존 경쟁\n(라) 유리한 변이의 집단 형성 및 진화",
-                options: [
-                    "① (가) ➔ (나) ➔ (다) ➔ (라)",
-                    "② (나) ➔ (다) ➔ (가) ➔ (라)",
-                    "③ (나) ➔ (가) ➔ (다) ➔ (라)",
-                    "④ (다) ➔ (나) ➔ (가) ➔ (라)",
-                    "⑤ (가) ➔ (다) ➔ (나) ➔ (라)"
-                ],
-                answer: 1,
-                explanation: "진화 순서: 과잉 생산과 변이 ➔ 생존 경쟁 ➔ 환경에 적합한 형질 선택(자연선택) ➔ 개체군 변화 및 진화."
-            },
-            {
-                chapter: "Ⅱ. 환경과 에너지 (4. 발전과 전력 수송)",
-                question: "[천재교육 기출] 송전선에서 손실되는 전력($P_{loss}$)을 줄이기 위한 방법으로 가장 효과적인 것은?",
-                options: [
-                    "① 송전 전압을 낮춘다.",
-                    "② 송전선에 흐르는 전류의 세기를 늘린다.",
-                    "③ 변전소에서 송전 전압을 크게 높여 송전한다.",
-                    "④ 저항이 훨씬 큰 송전선 재질로 교체한다.",
-                    "⑤ 전력 발전량을 절반 이하로 줄인다."
-                ],
-                answer: 2,
-                explanation: "손실 전력 $P_{loss} = I^2 R$ 입니다. 전압을 V배 높이면 전류는 1/V배로 줄어들어 손실 전력이 $1/V^2$ 배로 대폭 감소합니다."
-            },
-            {
-                chapter: "Ⅱ. 환경과 에너지 (5. 신재생 에너지)",
-                question: "[완자 기출] 수소 연료 전지에 대한 특징으로 옳지 않은 것은?",
-                options: [
-                    "① 수소가 산화되면서 발생하는 전자를 이용한다.",
-                    "② 화학 에너지를 전기 에너지를 직접 전환한다.",
-                    "③ 연소 과정이 없으므로 에너지 효율이 높다.",
-                    "④ 반응 부산물로 순수한 물(H₂O)만 배출된다.",
-                    "⑤ 반응 시 유해한 온실가스(CO₂)가 대량 배출된다."
-                ],
-                answer: 4,
-                explanation: "수소 연료 전지는 이산화탄소나 유해 가스 배출이 전혀 없는 친환경 자원입니다."
-            },
-            {
-                chapter: "Ⅲ. 과학기술과 인류 (1. 신소재)",
-                question: "[천재교육 기출] 초전도체와 관련된 설명으로 옳은 것만을 보기에서 고른 것은?",
-                box: "ㄱ. 특정 온도(임계 온도) 이하에서 전기 저항이 0이 된다.\nㄴ. 자석 위에 부유하는 현상을 마이스너 효과라고 한다.\nㄷ. 강한 자기장을 형성하여 MRI 장치 등에 활용된다.",
-                options: ["① ㄱ", "② ㄷ", "③ ㄱ, ㄴ", "④ ㄴ, ㄷ", "⑤ ㄱ, ㄴ, ㄷ"],
-                answer: 4,
-                explanation: "초전도체는 임계 온도 이하에서 저항이 0이 되며 자석을 띄우는 마이스너 효과를 나타냅니다."
-            },
-            {
-                chapter: "Ⅳ. 지구시스템과 우주 (2. 우주 원소의 탄생)",
-                question: "[완자 기출] 빅뱅 우주론에 의해 우주 초기에 형성된 수소 핵과 헬륨 핵의 질량비는?",
-                options: ["① 1 : 1", "② 3 : 1", "③ 7 : 1", "④ 12 : 1", "⑤ 1 : 3"],
-                answer: 1,
-                explanation: "빅뱅 핵합성에 의해 수소와 헬륨의 질량비는 약 3 : 1로 형성되었으며 펜지어스와 윌슨의 우주배경복사 관측으로 입증되었습니다."
-            }
-        ];
-
-        let currentQuiz = null;
-        let selectedOption = -1;
-        let wrongNotes = JSON.parse(localStorage.getItem("science_wrong_notes") || "[]");
-
-        function updateWrongCount() {
-            document.getElementById("wrongCount").innerText = wrongNotes.length;
-        }
-        updateWrongCount();
-
-        function switchTab(idx) {
-            document.getElementById("btnTab1").className = idx === 1 ? "tab-btn active" : "tab-btn";
-            document.getElementById("btnTab2").className = idx === 2 ? "tab-btn active" : "tab-btn";
-            document.getElementById("btnTab3").className = idx === 3 ? "tab-btn active" : "tab-btn";
-            document.getElementById("tab1").style.display = idx === 1 ? "block" : "none";
-            document.getElementById("tab2").style.display = idx === 2 ? "block" : "none";
-            document.getElementById("tab3").style.display = idx === 3 ? "block" : "none";
-            
-            if (idx === 2 && !currentQuiz) loadRandomQuiz();
-            if (idx === 3) renderWrongNotes();
-        }
-
-        function loadRandomQuiz() {
-            selectedOption = -1;
-            document.getElementById("resultBox").style.display = "none";
-            
-            const randIdx = Math.floor(Math.random() * QUESTION_BANK.length);
-            currentQuiz = QUESTION_BANK[randIdx];
-
-            document.getElementById("quizChapter").innerText = `[${currentQuiz.chapter}]`;
-            document.getElementById("quizQuestion").innerText = currentQuiz.question;
-
-            const boxEl = document.getElementById("quizBox");
-            if (currentQuiz.box) {
-                boxEl.innerText = currentQuiz.box;
-                boxEl.style.display = "block";
-            } else {
-                boxEl.style.display = "none";
-            }
-
-            let optHtml = "";
-            currentQuiz.options.forEach((opt, idx) => {
-                optHtml += `<div class="option-item" id="opt_${idx}" onclick="selectOption(${idx})">${opt}</div>`;
-            });
-            document.getElementById("quizOptions").innerHTML = optHtml;
-        }
-
-        function selectOption(idx) {
-            selectedOption = idx;
-            currentQuiz.options.forEach((_, i) => {
-                const el = document.getElementById(`opt_${i}`);
-                if (i === idx) el.classList.add("selected");
-                else el.classList.remove("selected");
-            });
-        }
-
-        function checkAnswer() {
-            if (selectedOption === -1) {
-                alert("정답 보기 중 하나를 선택해 주세요!");
-                return;
-            }
-
-            const resBox = document.getElementById("resultBox");
-            const resText = document.getElementById("resultText");
-            const resDesc = document.getElementById("resultDesc");
-
-            if (selectedOption === currentQuiz.answer) {
-                resBox.className = "result-box result-success";
-                resText.innerText = "🎉 정답입니다! (+50 코인 적립)";
-                resDesc.innerText = "해설: " + currentQuiz.explanation;
-
-                let coins = parseInt(localStorage.getItem("car_total_coins") || "0");
-                localStorage.setItem("car_total_coins", (coins + 50).toString());
-            } else {
-                resBox.className = "result-box result-fail";
-                resText.innerText = `❌ 틀렸습니다. (정답: ${currentQuiz.options[currentQuiz.answer]})`;
-                resDesc.innerText = "해설: " + currentQuiz.explanation;
-
-                // 오답노트 저장
-                wrongNotes.push({
-                    chapter: currentQuiz.chapter,
-                    question: currentQuiz.question,
-                    myAnswer: currentQuiz.options[selectedOption],
-                    correctAnswer: currentQuiz.options[currentQuiz.answer],
-                    explanation: currentQuiz.explanation
-                });
-                localStorage.setItem("science_wrong_notes", JSON.stringify(wrongNotes));
-                updateWrongCount();
-            }
-            resBox.style.display = "block";
-        }
-
-        function renderWrongNotes() {
-            const listEl = document.getElementById("wrongNotesList");
-            if (wrongNotes.length === 0) {
-                listEl.innerHTML = "<p style='color:#bbb;'>오답 기록이 없습니다. 완벽하네요!</p>";
-                return;
-            }
-
-            let html = "";
-            wrongNotes.forEach((wn, idx) => {
-                html += `<div class="wrong-card">
-                    <div style="color:#f1c40f; font-size:12px; font-weight:bold;">${wn.chapter}</div>
-                    <div style="font-weight:bold; margin-top:4px; color:#38bdf8;">${wn.question}</div>
-                    <div style="margin-top:6px; font-size:13px; color:#ef4444;">내 선택: ${wn.myAnswer}</div>
-                    <div style="font-size:13px; color:#2ecc71;">정답: ${wn.correctAnswer}</div>
-                    <div style="margin-top:6px; font-size:12px; color:#ccc;">💡 해설: ${wn.explanation}</div>
-                </div>`;
-            });
-            listEl.innerHTML = html;
-        }
-
-        function clearWrongNotes() {
-            if (confirm("오답노트를 비우시겠습니까?")) {
-                wrongNotes = [];
-                localStorage.removeItem("science_wrong_notes");
-                updateWrongCount();
-                renderWrongNotes();
-            }
-        }
-    </script>
-    </body>
-    </html>
-    """
-    components.html(science_html, height=720)
-
-# ==========================================
-# 🏎️ 3. 7인 아이템 카트 레이싱
+# 🏎️ 2. 7인 아이템 카트 레이싱 (3분 완주 초장거리 트랙 & 방향 화살표)
 # ==========================================
 elif st.session_state.current_screen == "racing":
     col_nav1, col_nav2 = st.columns([1, 4])
     with col_nav1:
         st.button("🏠 메인으로", on_click=set_screen, args=("home",), use_container_width=True)
     with col_nav2:
-        st.subheader("🏎️ 7인 카트 레이싱")
+        st.subheader("🏎️ 7인 카트 레이싱 (3분 익스트림 롱 코스)")
 
     st.caption("조작법 | W: 전진 | S: 후진 | A/D: 회전 | Shift: 드리프트 | Ctrl/Alt: 첫 번째 아이템 사용")
 
@@ -447,7 +79,7 @@ elif st.session_state.current_screen == "racing":
     <div id="gameContainer">
         <div id="startOverlay">
             <h1 id="mapTitle" style="color:#f1c40f; margin-bottom:5px;">🏁 카트 레이싱</h1>
-            <p id="mapDesc" style="color:#ccc; margin-bottom:15px;">아이템을 최대 2개까지 보관할 수 있습니다!</p>
+            <p id="mapDesc" style="color:#ccc; margin-bottom:15px;">3분 완주 초장거리 트랙! 카운트다운 시 표시되는 출발 화살표 방향으로 진행하세요.</p>
             <div style="display:flex; gap:10px;">
                 <button class="btn-start" onclick="startGame(false)">🏁 경기 시작</button>
                 <button class="btn-start btn-practice" onclick="startGame(true)">🏎️ 혼자 연습하기</button>
@@ -471,32 +103,38 @@ elif st.session_state.current_screen == "racing":
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
+        // 🛣️ 완주 3분 소요 초장거리 웨이포인트 맵 (12000 x 12000 스케일)
         const MAP_THEMES = [
-            { id: 1, name: "1번 맵: 🌵 사막 대곡선 8자 루프 트랙", bgColor: "#e67e22", roadColor: "#2c3e50", border: "#f39c12", props: [{x:800,y:400,icon:"🌵"}, {x:2200,y:1200,icon:"🏜️"}, {x:1500,y:2500,icon:"🏝️"}, {x:600,y:3000,icon:"🌵"}], waypoints: [{x:600,y:600}, {x:1800,y:600}, {x:2600,y:1200}, {x:2000,y:2000}, {x:1200,y:1600}, {x:800,y:2400}, {x:1600,y:3400}, {x:2800,y:3200}, {x:3400,y:2200}, {x:3000,y:1000}, {x:2000,y:200}, {x:600,y:600}] },
-            { id: 2, name: "2번 맵: ❄️ 눈꽃 설원 연속 S자 헤어핀 트랙", bgColor: "#3498db", roadColor: "#ecf0f1", border: "#2980b9", props: [{x:700,y:400,icon:"🌲"}, {x:1800,y:1200,icon:"🧊"}, {x:3000,y:2200,icon:"☃️"}, {x:1200,y:3000,icon:"🌲"}], waypoints: [{x:600,y:600}, {x:1500,y:600}, {x:2200,y:1200}, {x:1500,y:1800}, {x:2500,y:2200}, {x:3400,y:1600}, {x:3600,y:2800}, {x:2600,y:3400}, {x:1600,y:2800}, {x:1000,y:3600}, {x:400,y:2600}, {x:600,y:1500}, {x:600,y:600}] },
-            { id: 3, name: "3번 맵: 🏙️ 네온 시티 스트리트 트랙", bgColor: "#1a0826", roadColor: "#2c2c54", border: "#ff007f", props: [{x:800,y:300,icon:"🏙️"}, {x:2500,y:1000,icon:"🏢"}, {x:3200,y:2500,icon:"🏬"}, {x:1000,y:3200,icon:"🏙️"}], waypoints: [{x:600,y:600}, {x:2400,y:600}, {x:2400,y:1500}, {x:3500,y:1500}, {x:3500,y:3200}, {x:2000,y:3200}, {x:2000,y:2200}, {x:1000,y:2200}, {x:1000,y:3600}, {x:400,y:3600}, {x:400,y:1800}, {x:600,y:600}] },
-            { id: 4, name: "4번 맵: 🌳 깊은 숲속 원형 링 코스", bgColor: "#1e4620", roadColor: "#4e3629", border: "#27ae60", props: [{x:900,y:400,icon:"🌳"}, {x:2600,y:1100,icon:"🍄"}, {x:3100,y:2600,icon:"🌲"}, {x:1200,y:3100,icon:"🌳"}], waypoints: [{x:600,y:600}, {x:2000,y:400}, {x:3200,y:1000}, {x:3600,y:2200}, {x:3000,y:3200}, {x:1800,y:3600}, {x:800,y:3000}, {x:400,y:1800}, {x:600,y:600}] },
-            { id: 5, name: "5번 맵: 🌋 화산 지옥 꼬불꼬불 복합 트랙", bgColor: "#3d0c02", roadColor: "#1c1c1c", border: "#e74c3c", props: [{x:700,y:300,icon:"🔥"}, {x:2000,y:1000,icon:"🗿"}, {x:3300,y:2000,icon:"🔥"}, {x:1400,y:3200,icon:"🗿"}], waypoints: [{x:600,y:600}, {x:1400,y:600}, {x:1000,y:1400}, {x:2000,y:1400}, {x:2600,y:800}, {x:3400,y:1600}, {x:2800,y:2400}, {x:3400,y:3200}, {x:2200,y:3600}, {x:1500,y:2800}, {x:800,y:3400}, {x:400,y:2200}, {x:600,y:600}] },
-            { id: 6, name: "6번 맵: 🌊 해변 리조트 야자수 트랙", bgColor: "#16a085", roadColor: "#f39c12", border: "#1abc9c", props: [{x:800,y:400,icon:"🌴"}, {x:2200,y:1000,icon:"🏖️"}, {x:3000,y:2400,icon:"🍹"}, {x:1200,y:3000,icon:"🌴"}], waypoints: [{x:600,y:600}, {x:1800,y:500}, {x:2800,y:1200}, {x:3400,y:2400}, {x:2400,y:3000}, {x:1800,y:2200}, {x:1000,y:3200}, {x:400,y:2000}, {x:600,y:600}] },
-            { id: 7, name: "7번 맵: 🌌 우주 은하수 레이싱 트랙", bgColor: "#0c0826", roadColor: "#341f97", border: "#5f27cd", props: [{x:900,y:300,icon:"🚀"}, {x:2400,y:1200,icon:"🪐"}, {x:3200,y:2600,icon:"⭐"}, {x:1100,y:2800,icon:"🛸"}], waypoints: [{x:600,y:600}, {x:1600,y:1000}, {x:2600,y:600}, {x:3500,y:1600}, {x:2800,y:2600}, {x:2000,y:1800}, {x:1200,y:3400}, {x:400,y:2400}, {x:600,y:600}] },
-            { id: 8, name: "8번 맵: 🍬 달콤한 캔디랜드 트랙", bgColor: "#fd79a8", roadColor: "#6c5ce7", border: "#e84393", props: [{x:800,y:400,icon:"🍭"}, {x:2300,y:1100,icon:"🍬"}, {x:3100,y:2500,icon:"🍩"}, {x:1000,y:3000,icon:"🧁"}], waypoints: [{x:600,y:600}, {x:1400,y:600}, {x:2000,y:1200}, {x:2800,y:600}, {x:3500,y:1800}, {x:2600,y:2800}, {x:1600,y:2200}, {x:800,y:3400}, {x:400,y:2000}, {x:600,y:600}] },
-            { id: 9, name: "9번 맵: 🏰 중세 고성 기사 트랙", bgColor: "#2d3436", roadColor: "#636e72", border: "#d63031", props: [{x:700,y:300,icon:"🏰"}, {x:2100,y:1000,icon:"🛡️"}, {x:3200,y:2200,icon:"⚔️"}, {x:1300,y:3100,icon:"👑"}], waypoints: [{x:600,y:600}, {x:1900,y:600}, {x:2500,y:1400}, {x:3500,y:1400}, {x:3500,y:3000}, {x:2200,y:3000}, {x:1500,y:2000}, {x:800,y:3400}, {x:400,y:1800}, {x:600,y:600}] },
-            { id: 10, name: "10번 맵: ⚡ 사이버펑크 미래도시 트랙", bgColor: "#0f0f1b", roadColor: "#111", border: "#00d2d3", props: [{x:800,y:400,icon:"⚡"}, {x:2500,y:1200,icon:"🤖"}, {x:3000,y:2500,icon:"👾"}, {x:1100,y:3000,icon:"🔋"}], waypoints: [{x:600,y:600}, {x:1600,y:400}, {x:2400,y:1200}, {x:3600,y:1200}, {x:3000,y:2600}, {x:1800,y:2600}, {x:1200,y:3600}, {x:400,y:2400}, {x:600,y:600}] }
+            { id: 1, name: "1번 맵: 🌵 사막 대곡선 3분 울트라 서킷", bgColor: "#e67e22", roadColor: "#2c3e50", border: "#f39c12", props: [{x:1000,y:800,icon:"🌵"}, {x:4000,y:2000,icon:"🏜️"}, {x:7000,y:5000,icon:"🏝️"}, {x:2000,y:8000,icon:"🌵"}], waypoints: [{x:800,y:800}, {x:3500,y:800}, {x:5500,y:2000}, {x:4000,y:3800}, {x:2200,y:3000}, {x:1500,y:5000}, {x:3500,y:7000}, {x:6500,y:6500}, {x:8500,y:5000}, {x:7500,y:2800}, {x:9500,y:2000}, {x:10500,y:4800}, {x:9000,y:8000}, {x:6500,y:10000}, {x:3500,y:9500}, {x:1800,y:7500}, {x:800,y:4500}, {x:800,y:800}] },
+            { id: 2, name: "2번 맵: ❄️ 눈꽃 설원 연속 20연속 헤어핀 마라톤", bgColor: "#3498db", roadColor: "#ecf0f1", border: "#2980b9", props: [{x:1200,y:800,icon:"🌲"}, {x:5000,y:2500,icon:"🧊"}, {x:8000,y:6000,icon:"☃️"}], waypoints: [{x:800,y:800}, {x:2800,y:800}, {x:4200,y:2200}, {x:2800,y:3600}, {x:4800,y:4800}, {x:6800,y:3200}, {x:8800,y:4800}, {x:6800,y:6800}, {x:4200,y:5800}, {x:2500,y:7800}, {x:4500,y:9800}, {x:7500,y:9000}, {x:9500,y:7500}, {x:10500,y:4200}, {x:8500,y:1800}, {x:5000,y:800}, {x:800,y:800}] },
+            { id: 3, name: "3번 맵: 🏙️ 네온 메트로폴리스 3분 초장거리 고속도로", bgColor: "#1a0826", roadColor: "#2c2c54", border: "#ff007f", props: [{x:1500,y:600,icon:"🏙️"}, {x:6000,y:3000,icon:"🏢"}, {x:9000,y:7000,icon:"🏬"}], waypoints: [{x:800,y:800}, {x:5000,y:800}, {x:5000,y:3200}, {x:8000,y:3200}, {x:8000,y:6500}, {x:5000,y:6500}, {x:5000,y:4800}, {x:2500,y:4800}, {x:2500,y:8500}, {x:6000,y:8500}, {x:9500,y:9500}, {x:10500,y:6000}, {x:10500,y:2000}, {x:7500,y:800}, {x:800,y:800}] },
+            { id: 4, name: "4번 맵: 🌳 깊은 숲속 무한 다단계 대서킷", bgColor: "#1e4620", roadColor: "#4e3629", border: "#27ae60", props: [{x:1200,y:800,icon:"🌳"}, {x:5000,y:2000,icon:"🍄"}, {x:8000,y:7000,icon:"🌲"}], waypoints: [{x:800,y:800}, {x:4000,y:800}, {x:7000,y:2000}, {x:8500,y:4800}, {x:6500,y:7500}, {x:3500,y:8500}, {x:1500,y:6500}, {x:800,y:3800}, {x:3000,y:2000}, {x:6000,y:3500}, {x:8500,y:2000}, {x:10000,y:5000}, {x:9000,y:9000}, {x:5000,y:10500}, {x:1500,y:9500}, {x:800,y:800}] },
+            { id: 5, name: "5번 맵: 🌋 화산 지옥 3분 복합 메가 크로스", bgColor: "#3d0c02", roadColor: "#1c1c1c", border: "#e74c3c", props: [{x:1000,y:600,icon:"🔥"}, {x:4000,y:2000,icon:"🗿"}, {x:7500,y:5000,icon:"🔥"}], waypoints: [{x:800,y:800}, {x:3000,y:800}, {x:2200,y:2800}, {x:4500,y:2800}, {x:5800,y:1500}, {x:7800,y:3200}, {x:6200,y:5200}, {x:7800,y:7200}, {x:5000,y:8200}, {x:3200,y:6200}, {x:1800,y:7800}, {x:800,y:5200}, {x:2500,y:9800}, {x:6000,y:10500}, {x:9500,y:9000}, {x:10500,y:4500}, {x:8500,y:1200}, {x:800,y:800}] },
+            { id: 6, name: "6번 맵: 🌊 해변 리조트 3분 풀코스 드리프트", bgColor: "#16a085", roadColor: "#f39c12", border: "#1abc9c", props: [{x:1200,y:800,icon:"🌴"}, {x:4500,y:2000,icon:"🏖️"}, {x:7500,y:6000,icon:"🍹"}], waypoints: [{x:800,y:800}, {x:4000,y:800}, {x:6500,y:2500}, {x:8500,y:5000}, {x:6000,y:6800}, {x:4000,y:4800}, {x:2000,y:7000}, {x:800,y:4500}, {x:3000,y:9500}, {x:7000,y:10500}, {x:10000,y:8000}, {x:10500,y:3500}, {x:7500,y:1200}, {x:800,y:800}] },
+            { id: 7, name: "7번 맵: 🌌 우주 은하수 3분 메가 서킷", bgColor: "#0c0826", roadColor: "#341f97", border: "#5f27cd", props: [{x:1500,y:600,icon:"🚀"}, {x:5000,y:2500,icon:"🪐"}, {x:8000,y:6000,icon:"⭐"}], waypoints: [{x:800,y:800}, {x:3500,y:2000}, {x:6000,y:1000}, {x:8500,y:3000}, {x:6800,y:5500}, {x:4500,y:3800}, {x:2500,y:7500}, {x:800,y:5000}, {x:3500,y:10000}, {x:7500,y:9000}, {x:10500,y:7000}, {x:9000,y:3500}, {x:6000,y:800}, {x:800,y:800}] },
+            { id: 8, name: "8번 맵: 🍬 달콤한 캔디랜드 익스트림 마라톤", bgColor: "#fd79a8", roadColor: "#6c5ce7", border: "#e84393", props: [{x:1200,y:800,icon:"🍭"}, {x:5000,y:2200,icon:"🍬"}, {x:8000,y:6000,icon:"🍩"}], waypoints: [{x:800,y:800}, {x:3000,y:800}, {x:4500,y:2500}, {x:6500,y:1000}, {x:8500,y:3800}, {x:6000,y:6000}, {x:3500,y:4800}, {x:1800,y:7800}, {x:800,y:4500}, {x:4000,y:10000}, {x:8000,y:9500}, {x:10500,y:6000}, {x:9000,y:2000}, {x:5000,y:800}, {x:800,y:800}] },
+            { id: 9, name: "9번 맵: 🏰 중세 고성 3분 수호 기사 트랙", bgColor: "#2d3436", roadColor: "#636e72", border: "#d63031", props: [{x:1200,y:800,icon:"🏰"}, {x:4500,y:2000,icon:"🛡️"}, {x:7500,y:6000,icon:"⚔️"}], waypoints: [{x:800,y:800}, {x:4500,y:800}, {x:6000,y:3000}, {x:8500,y:3000}, {x:8500,y:7000}, {x:5500,y:7000}, {x:3500,y:4500}, {x:1800,y:8000}, {x:800,y:4000}, {x:4500,y:10000}, {x:8500,y:10000}, {x:10500,y:6000}, {x:9000,y:1800}, {x:800,y:800}] },
+            { id: 10, name: "10번 맵: ⚡ 사이버펑크 3분 인피니티 트랙", bgColor: "#0f0f1b", roadColor: "#111", border: "#00d2d3", props: [{x:1200,y:800,icon:"⚡"}, {x:5000,y:2500,icon:"🤖"}, {x:8000,y:6000,icon:"👾"}], waypoints: [{x:800,y:800}, {x:3800,y:800}, {x:5800,y:2800}, {x:8800,y:2800}, {x:7200,y:6200}, {x:4200,y:6200}, {x:2800,y:9000}, {x:800,y:5800}, {x:4500,y:10500}, {x:8500,y:9500}, {x:10500,y:5200}, {x:8500,y:1500}, {x:4500,y:800}, {x:800,y:800}] }
         ];
 
         const PRACTICE_MAP = {
             id: 0, name: "🏎️ 자유 연습 트랙 (기록 저장 가능)",
             bgColor: "#2c3e50", roadColor: "#34495e", border: "#1abc9c",
             props: [{x:1000,y:1000,icon:"🎯"}],
-            waypoints: [{x:600,y:600}, {x:2000,y:600}, {x:2000,y:2000}, {x:600,y:2000}, {x:600,y:600}]
+            waypoints: [{x:800,y:800}, {x:4500,y:800}, {x:4500,y:4500}, {x:800,y:4500}, {x:800,y:800}]
         };
 
         let currentTheme = MAP_THEMES[Math.floor(Math.random() * MAP_THEMES.length)];
         let waypoints = currentTheme.waypoints;
         document.getElementById("mapTitle").innerText = currentTheme.name;
 
-        let gameStarted = false, countdown = -1, finishTimer = -1, raceEnded = false, winnerName = "", raceStartTime = 0, elapsedRaceTime = "00:00.0", isPractice = false;
+        let gameStarted = false, countdown = -1, finishTimer = -1, raceEnded = false, winnerName = "", raceStartTimeMs = 0, elapsedRaceTime = "00:00.0", isPractice = false;
+        
         const keys = { w: false, s: false, a: false, d: false, shift: false };
+
+        function resetKeys() {
+            keys.w = false; keys.s = false; keys.a = false; keys.d = false; keys.shift = false;
+        }
 
         window.addEventListener("keydown", (e) => {
             if (e.key === "w" || e.key === "W" || e.key === "ㅈ") keys.w = true;
@@ -538,7 +176,12 @@ elif st.session_state.current_screen == "racing":
             }
         }
 
+        let countdownInterval = null;
+
         function startGame(practiceMode) {
+            resetKeys();
+            if (countdownInterval) clearInterval(countdownInterval);
+
             isPractice = practiceMode;
             if (isPractice) {
                 currentTheme = PRACTICE_MAP;
@@ -546,10 +189,20 @@ elif st.session_state.current_screen == "racing":
             }
             document.getElementById("startOverlay").style.display = "none";
             countdown = 5;
+            gameStarted = false;
 
-            karts = [createKart(0, "나(Player)", colors[0], false, 600, 600)];
+            // 정방향 각도 세팅 (초기 각도 계산)
+            const initAngle = Math.atan2(waypoints[1].y - waypoints[0].y, waypoints[1].x - waypoints[0].x);
+
+            karts = [createKart(0, "나(Player)", colors[0], false, waypoints[0].x, waypoints[0].y, initAngle)];
             if (!isPractice) {
-                for (let i = 1; i < 7; i++) karts.push(createKart(i, `AI ${i}`, colors[i], true, 600 - (i*30), 600 + (i%2 === 0 ? 35 : -35)));
+                for (let i = 1; i < 7; i++) {
+                    const offsetSide = (i % 2 === 0 ? 35 : -35);
+                    const backDist = i * 35;
+                    const startX = waypoints[0].x - Math.cos(initAngle) * backDist - Math.sin(initAngle) * offsetSide;
+                    const startY = waypoints[0].y - Math.sin(initAngle) * backDist + Math.cos(initAngle) * offsetSide;
+                    karts.push(createKart(i, `AI ${i}`, colors[i], true, startX, startY, initAngle));
+                }
             }
             player = karts[0];
 
@@ -558,21 +211,26 @@ elif st.session_state.current_screen == "racing":
                 itemBoxes.push({ x: waypoints[i].x, y: waypoints[i].y, active: true, timer: 0 });
             }
 
-            let timer = setInterval(() => {
+            countdownInterval = setInterval(() => {
                 countdown--;
-                if (countdown < 0) { clearInterval(timer); gameStarted = true; raceStartTime = Date.now(); }
+                if (countdown < 0) {
+                    clearInterval(countdownInterval);
+                    gameStarted = true;
+                    // ⏱️ 정밀 고해상도 타이머 시작 시점 저장
+                    raceStartTimeMs = performance.now();
+                }
             }, 1000);
         }
 
-        function createKart(id, name, color, isAI, startX, startY) {
-            return { id: id, name: name, color: color, isAI: isAI, x: startX, y: startY, angle: 0, speed: 0, maxSpeed: isAI ? 7.8 + Math.random()*1.2 : 8.6, accel: 0.13, decel: 0.05, turnSensitivity: 0.038, laneOffset: isAI ? (Math.random()-0.5)*90 : 0, targetWayIndex: 1, lap: 1, finished: false, finishTimeStr: "-", finishTimeMs: Infinity, items: [], boostTime: 0, spinTime: 0, skidmarks: [] };
+        function createKart(id, name, color, isAI, startX, startY, startAngle) {
+            return { id: id, name: name, color: color, isAI: isAI, x: startX, y: startY, angle: startAngle, speed: 0, maxSpeed: isAI ? 9.2 + Math.random()*1.2 : 10.2, accel: 0.16, decel: 0.05, turnSensitivity: 0.042, laneOffset: isAI ? (Math.random()-0.5)*90 : 0, targetWayIndex: 1, lap: 1, finished: false, finishTimeStr: "-", finishTimeMs: Infinity, items: [], boostTime: 0, spinTime: 0, skidmarks: [] };
         }
 
         const colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#e67e22", "#1abc9c"];
         let karts = [], player = null, bananas = [], itemBoxes = [];
 
         function useItem(kart) {
-            if (!kart.items || kart.items.length === 0) return;
+            if (!kart.items || kart.items.length === 0 || !gameStarted) return;
             let currentItem = kart.items.shift();
             if (currentItem === "booster") kart.boostTime = 90;
             else if (currentItem === "banana") bananas.push({ x: kart.x - Math.cos(kart.angle)*35, y: kart.y - Math.sin(kart.angle)*35 });
@@ -590,9 +248,13 @@ elif st.session_state.current_screen == "racing":
             return { distance: minDistance, projX: closestProjX, projY: closestProjY };
         }
 
+        // ⏱️ 정밀 타이머 포맷 함수
         function formatTime(ms) {
             const totalSec = ms / 1000;
-            return `${Math.floor(totalSec / 60).toString().padStart(2, '0')}:${Math.floor(totalSec % 60).toString().padStart(2, '0')}.${Math.floor((ms % 1000) / 100)}`;
+            const mins = Math.floor(totalSec / 60);
+            const secs = Math.floor(totalSec % 60);
+            const millis = Math.floor((ms % 1000) / 100);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${millis}`;
         }
 
         function saveStageRecord(mapId, timeStr, rawMs) {
@@ -607,7 +269,9 @@ elif st.session_state.current_screen == "racing":
 
         function update() {
             if (!gameStarted || raceEnded) return;
-            const currentMs = Date.now() - raceStartTime;
+            
+            // ⏱️ 정확한 경과 시간(ms) 측정
+            const currentMs = performance.now() - raceStartTimeMs;
             elapsedRaceTime = formatTime(currentMs);
 
             karts.forEach((k) => {
@@ -622,7 +286,7 @@ elif st.session_state.current_screen == "racing":
                     while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
                     k.angle += Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), k.turnSensitivity);
                     if (k.speed < k.maxSpeed * 0.9) k.speed += k.accel;
-                    if (Math.hypot(target.x - k.x, target.y - k.y) < 250) {
+                    if (Math.hypot(target.x - k.x, target.y - k.y) < 300) {
                         k.targetWayIndex++;
                         if (k.targetWayIndex >= waypoints.length) { 
                             k.targetWayIndex = 1; k.lap++; 
@@ -645,7 +309,7 @@ elif st.session_state.current_screen == "racing":
                     if (keys.a) k.angle -= turnSpeed; if (keys.d) k.angle += turnSpeed;
 
                     const target = waypoints[k.targetWayIndex];
-                    if (Math.hypot(target.x - k.x, target.y - k.y) < 250) {
+                    if (Math.hypot(target.x - k.x, target.y - k.y) < 300) {
                         k.targetWayIndex++;
                         if (k.targetWayIndex >= waypoints.length) {
                             k.targetWayIndex = 1; k.lap++;
@@ -665,10 +329,10 @@ elif st.session_state.current_screen == "racing":
                 let nextX = k.x + Math.cos(k.angle) * k.speed;
                 let nextY = k.y + Math.sin(k.angle) * k.speed;
                 const trackInfo = getDistanceToTrack(nextX, nextY);
-                if (trackInfo.distance > 115) {
+                if (trackInfo.distance > 120) {
                     const pushAngle = Math.atan2(nextY - trackInfo.projY, nextX - trackInfo.projX);
-                    nextX = trackInfo.projX + Math.cos(pushAngle) * 115;
-                    nextY = trackInfo.projY + Math.sin(pushAngle) * 115;
+                    nextX = trackInfo.projX + Math.cos(pushAngle) * 120;
+                    nextY = trackInfo.projY + Math.sin(pushAngle) * 120;
                     k.speed *= 0.6;
                 }
                 k.x = nextX; k.y = nextY;
@@ -725,6 +389,7 @@ elif st.session_state.current_screen == "racing":
         }
 
         function restartRace() {
+            resetKeys();
             currentTheme = MAP_THEMES[Math.floor(Math.random() * MAP_THEMES.length)]; waypoints = currentTheme.waypoints;
             document.getElementById("mapTitle").innerText = currentTheme.name;
             gameStarted = false; countdown = -1; finishTimer = -1; raceEnded = false; winnerName = ""; elapsedRaceTime = "00:00.0"; bananas = [];
@@ -746,7 +411,14 @@ elif st.session_state.current_screen == "racing":
             ctx.strokeStyle = currentTheme.border; ctx.lineWidth = 240; ctx.setLineDash([35, 35]); ctx.stroke(); ctx.setLineDash([]);
             ctx.strokeStyle = currentTheme.roadColor; ctx.lineWidth = 230; ctx.stroke();
             ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 5; ctx.setLineDash([25, 25]); ctx.stroke(); ctx.setLineDash([]);
-            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 18; ctx.beginPath(); ctx.moveTo(600, 470); ctx.lineTo(600, 730); ctx.stroke();
+            
+            // 출발선 렌더링
+            const startAng = Math.atan2(waypoints[1].y - waypoints[0].y, waypoints[1].x - waypoints[0].x);
+            ctx.save();
+            ctx.translate(waypoints[0].x, waypoints[0].y);
+            ctx.rotate(startAng + Math.PI/2);
+            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 20; ctx.beginPath(); ctx.moveTo(-115, 0); ctx.lineTo(115, 0); ctx.stroke();
+            ctx.restore();
 
             currentTheme.props.forEach(p => { ctx.font = "40px sans-serif"; ctx.textAlign = "center"; ctx.fillText(p.icon, p.x, p.y); });
 
@@ -767,12 +439,28 @@ elif st.session_state.current_screen == "racing":
                 ctx.save(); ctx.translate(k.x, k.y); ctx.rotate(k.angle);
                 ctx.fillStyle = k.color; ctx.beginPath(); ctx.roundRect(-18, -12, 36, 24, 6); ctx.fill();
                 ctx.fillStyle = "#111"; ctx.fillRect(-14, -15, 9, 4); ctx.fillRect(5, -15, 9, 4); ctx.fillRect(-14, 11, 9, 4); ctx.fillRect(5, 11, 9, 4);
+                
+                // 🧭 카운트다운 출발 방향 안내 대형 화살표 렌더링
+                if (countdown >= 0 && k.id === player.id) {
+                    ctx.fillStyle = "#ef4444";
+                    ctx.beginPath();
+                    ctx.moveTo(35, 0); ctx.lineTo(15, -18); ctx.lineTo(15, -8); ctx.lineTo(-10, -8); ctx.lineTo(-10, 8); ctx.lineTo(15, 8); ctx.lineTo(15, 18);
+                    ctx.closePath(); ctx.fill();
+                    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 3; ctx.stroke();
+                }
+
                 ctx.rotate(-k.angle); ctx.fillStyle = "#fff"; ctx.font = "bold 12px sans-serif"; ctx.textAlign = "center"; ctx.fillText(k.name, 0, -22); ctx.restore();
             });
             ctx.restore();
 
-            if (countdown > 0) { ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "#f1c40f"; ctx.font = "bold 90px sans-serif"; ctx.textAlign = "center"; ctx.fillText(countdown, canvas.width/2, canvas.height/2 + 30); }
-            else if (countdown === 0) { ctx.fillStyle = "#2ecc71"; ctx.font = "bold 90px sans-serif"; ctx.textAlign = "center"; ctx.fillText("GO!", canvas.width/2, canvas.height/2 + 30); }
+            // 🧭 화면 중앙 직관적인 출발 방향 텍스트 안내
+            if (countdown > 0) { 
+                ctx.fillStyle = "rgba(0,0,0,0.55)"; ctx.fillRect(0,0,canvas.width,canvas.height); 
+                ctx.fillStyle = "#facc15"; ctx.font = "bold 80px sans-serif"; ctx.textAlign = "center"; ctx.fillText(countdown, canvas.width/2, canvas.height/2 - 10); 
+                ctx.fillStyle = "#38bdf8"; ctx.font = "bold 24px sans-serif"; ctx.fillText("➔ 빨간 화살표 방향으로 출발하세요!", canvas.width/2, canvas.height/2 + 55); 
+            } else if (countdown === 0) { 
+                ctx.fillStyle = "#2ecc71"; ctx.font = "bold 90px sans-serif"; ctx.textAlign = "center"; ctx.fillText("GO!", canvas.width/2, canvas.height/2 + 30); 
+            }
 
             const myRank = karts.findIndex(k => k.id === player.id) + 1;
             ctx.fillStyle = "#ffffff"; ctx.font = "bold 22px sans-serif"; ctx.textAlign = "left";
@@ -790,13 +478,14 @@ elif st.session_state.current_screen == "racing":
                 }
             }
 
+            // 미니맵 스케일 (12000px 초장거리 트랙에 비례 대응)
             const mapX = canvas.width - 140, mapY = canvas.height - 140, mapSize = 120;
             ctx.fillStyle = "rgba(0,0,0,0.85)"; ctx.fillRect(mapX, mapY, mapSize, mapSize);
             ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = 3; ctx.beginPath();
-            ctx.moveTo(mapX + (waypoints[0].x / 4000) * mapSize, mapY + (waypoints[0].y / 4000) * mapSize);
-            for (let i = 1; i < waypoints.length; i++) ctx.lineTo(mapX + (waypoints[i].x / 4000) * mapSize, mapY + (waypoints[i].y / 4000) * mapSize);
+            ctx.moveTo(mapX + (waypoints[0].x / 12000) * mapSize, mapY + (waypoints[0].y / 12000) * mapSize);
+            for (let i = 1; i < waypoints.length; i++) ctx.lineTo(mapX + (waypoints[i].x / 12000) * mapSize, mapY + (waypoints[i].y / 12000) * mapSize);
             ctx.stroke();
-            karts.forEach(k => { ctx.fillStyle = k.color; ctx.beginPath(); ctx.arc(mapX + (k.x / 4000) * mapSize, mapY + (k.y / 4000) * mapSize, k.id === player.id ? 4 : 2, 0, Math.PI*2); ctx.fill(); });
+            karts.forEach(k => { ctx.fillStyle = k.color; ctx.beginPath(); ctx.arc(mapX + (k.x / 12000) * mapSize, mapY + (k.y / 12000) * mapSize, k.id === player.id ? 4 : 2, 0, Math.PI*2); ctx.fill(); });
 
             if (finishTimer > 0) {
                 ctx.fillStyle = "rgba(0,0,0,0.75)"; ctx.fillRect(0, canvas.height/2 - 50, canvas.width, 100);
@@ -830,7 +519,7 @@ elif st.session_state.current_screen == "racing":
     components.html(racing_html, height=560)
 
 # ==========================================
-# 🚗 4. 도시 자동차 장애물 피하기 (횡단보도 & 맞은편 자동차/실무 그래픽 반영)
+# 🚗 3. 도시 자동차 장애물 피하기 (콘크리트 천장 디자인 반영)
 # ==========================================
 elif st.session_state.current_screen == "obstacle":
     col_nav1, col_nav2 = st.columns([1, 4])
@@ -870,7 +559,7 @@ elif st.session_state.current_screen == "obstacle":
             <p id="menuCoinText" style="color:#38bdf8; font-weight:bold; margin-bottom:20px;">보유 코인: 0 개</p>
             <button class="btn-menu" style="background:#27ae60;" onclick="startObstacleGame()">🏁 시작하기</button>
             <button class="btn-menu" style="background:#f39c12;" onclick="openShop()">🏪 상점</button>
-            <button class="btn-menu" style="background:#7f8c8d; font-size:14px;" onclick="resetCarData()">🔄 기록 재설정</button>
+            <button class="btn-menu" style="background:#7f8c8d; font-size:14px;" onclick="resetCarData()">🔄 기록/차종 데이터 재설정</button>
         </div>
 
         <div id="shopOverlay" style="display:none;">
@@ -909,6 +598,9 @@ elif st.session_state.current_screen == "obstacle":
         let score = 0, sessionCoins = 0, bonusCoinsFromScore = 0, speed = 6, gameOver = false, gameActive = false, floatText = [];
         let scoreTimer = 0;
         let animationFrameId = null;
+
+        let crosswalks = [];
+        let crosswalkTimer = 0;
 
         const player = { x: canvas.width / 2 - 22, y: canvas.height - 100, width: 44, height: 75, speed: 7.5, isJumping: false, jumpHeight: 0, jumpVelocity: 0, gravity: 0.85 };
         const keys = { a: false, d: false };
@@ -963,13 +655,13 @@ elif st.session_state.current_screen == "obstacle":
         }
 
         function resetCarData() {
-            if (confirm("구매 내역과 코인을 초기화하시겠습니까?")) {
+            if (confirm("모든 차종 구매 내역과 보유 코인을 초기화하시겠습니까?")) {
                 localStorage.removeItem("car_owned_list");
                 localStorage.removeItem("car_equipped_id");
                 localStorage.removeItem("car_total_coins");
                 ownedCars = [0]; equippedCarId = 0; totalCoins = 0;
                 updateMenuCoins();
-                alert("리셋되었습니다.");
+                alert("성공적으로 초기화되었습니다.");
             }
         }
 
@@ -991,7 +683,7 @@ elif st.session_state.current_screen == "obstacle":
             { type: "tree", label: "나무", tag: "[점프가능]", width: 60, height: 60, canJumpOver: true },
             { type: "person", label: "사람", tag: "[점프가능]", width: 35, height: 45, canJumpOver: true },
             { type: "trafficLight", label: "신호등", tag: "[회피필수]", width: 65, height: 60, canJumpOver: false },
-            { type: "building", label: "구조물", tag: "[회피필수]", width: 100, height: 75, canJumpOver: false },
+            { type: "building", label: "콘크리트 건물", tag: "[회피필수]", width: 105, height: 80, canJumpOver: false },
             { type: "enemyTruck", label: "대형 트럭", tag: "[회피필수]", width: 48, height: 95, canJumpOver: false },
             { type: "enemyCar", label: "맞은편 승용차", tag: "[회피필수]", width: 44, height: 75, canJumpOver: false }
         ];
@@ -1026,6 +718,16 @@ elif st.session_state.current_screen == "obstacle":
             roadOffset = (roadOffset + speed) % 500;
 
             if (++scoreTimer >= 18) { score += 1; scoreTimer = 0; }
+
+            if (++crosswalkTimer > 160 + Math.floor(Math.random() * 220)) {
+                crosswalks.push({ y: -100 });
+                crosswalkTimer = 0;
+            }
+
+            for (let i = crosswalks.length - 1; i >= 0; i--) {
+                crosswalks[i].y += speed;
+                if (crosswalks[i].y > canvas.height + 100) crosswalks.splice(i, 1);
+            }
 
             if (keys.a && player.x > 45) player.x -= player.speed;
             if (keys.d && player.x < canvas.width - 45 - player.width) player.x += player.speed;
@@ -1101,13 +803,13 @@ elif st.session_state.current_screen == "obstacle":
                 ctx.fillStyle = "#eab308"; ctx.beginPath(); ctx.arc(o.width/2, 12, 7, 0, Math.PI*2); ctx.fill();
                 ctx.fillStyle = "#22c55e"; ctx.beginPath(); ctx.arc(o.width/2 + 14, 12, 7, 0, Math.PI*2); ctx.fill();
             } else if (o.type === "building") {
-                ctx.fillStyle = "#334155"; ctx.fillRect(0, 0, o.width, o.height);
-                ctx.fillStyle = "#f8fafc";
-                for(let r=8; r<o.height-12; r+=18) {
-                    for(let c=10; c<o.width-15; c+=20) {
-                        ctx.fillRect(c, r, 10, 10);
-                    }
-                }
+                ctx.fillStyle = "#64748b"; ctx.fillRect(0, 0, o.width, o.height);
+                ctx.fillStyle = "#475569"; ctx.fillRect(0, 0, o.width, 16);
+                ctx.fillStyle = "#334155"; ctx.fillRect(0, 16, o.width, 4);
+                ctx.fillStyle = "#1e293b";
+                ctx.fillRect(8, 25, 20, 48); ctx.fillRect(42, 25, 20, 48); ctx.fillRect(76, 25, 20, 48);
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillRect(10, 28, 16, 42); ctx.fillRect(44, 28, 16, 42); ctx.fillRect(78, 28, 16, 42);
             } else if (o.type === "enemyTruck") {
                 ctx.fillStyle = "#94a3b8"; ctx.fillRect(2, 0, o.width - 4, o.height - 25);
                 ctx.fillStyle = "#dc2626"; ctx.beginPath(); ctx.roundRect(0, o.height - 25, o.width, 25, 4); ctx.fill();
@@ -1185,11 +887,12 @@ elif st.session_state.current_screen == "obstacle":
             ctx.beginPath(); ctx.moveTo((canvas.width/3)*2 - 10, 0); ctx.lineTo((canvas.width/3)*2 - 10, canvas.height); ctx.stroke();
             ctx.setLineDash([]);
 
-            const crosswalkY = (roadOffset * 2) % 600 - 100;
-            ctx.fillStyle = "#f8fafc";
-            for(let cx = 45; cx < canvas.width - 45; cx += 35) {
-                ctx.fillRect(cx, crosswalkY, 22, 55);
-            }
+            crosswalks.forEach(cw => {
+                ctx.fillStyle = "#f8fafc";
+                for(let cx = 45; cx < canvas.width - 45; cx += 35) {
+                    ctx.fillRect(cx, cw.y, 22, 55);
+                }
+            });
 
             coins.forEach(c => {
                 ctx.fillStyle = "#f1c40f"; ctx.beginPath(); ctx.arc(c.x, c.y, c.radius, 0, Math.PI*2); ctx.fill();
@@ -1233,7 +936,7 @@ elif st.session_state.current_screen == "obstacle":
 
         function restartGame() {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            score = 0; sessionCoins = 0; bonusCoinsFromScore = 0; speed = 6; gameOver = false; obstacles = []; coins = []; player.x = canvas.width/2 - 22; loop();
+            score = 0; sessionCoins = 0; bonusCoinsFromScore = 0; speed = 6; gameOver = false; obstacles = []; coins = []; crosswalks = []; player.x = canvas.width/2 - 22; loop();
         }
 
         function loop() {
@@ -1250,7 +953,7 @@ elif st.session_state.current_screen == "obstacle":
     components.html(obstacle_html, height=610)
 
 # ==========================================
-# 🧗‍♂️ 5. 건강의 다리
+# 🧗‍♂️ 4. 건강의 다리 (사망 시 캐릭터 고르기 오버레이 복귀)
 # ==========================================
 elif st.session_state.current_screen == "stairs":
     col_nav1, col_nav2 = st.columns([1, 4])
@@ -1337,8 +1040,8 @@ elif st.session_state.current_screen == "stairs":
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        const STAIR_WIDTH = 75;
-        const STAIR_HEIGHT = 32;
+        const STAIR_WIDTH = 95;
+        const STAIR_HEIGHT = 42;
 
         let selectedCharIndex = 0;
         let score = 0;
@@ -1360,7 +1063,7 @@ elif st.session_state.current_screen == "stairs":
         updateBestDisplay();
 
         function resetBridgeData() {
-            if (confirm("건강의 다리 기록을 리셋하시겠습니까?")) {
+            if (confirm("건강의 다리 기록 및 보유 코인을 리셋하시겠습니까?")) {
                 localStorage.removeItem("stairs_high_score");
                 localStorage.removeItem("car_total_coins");
                 highScore = 0; totalCoins = 0;
@@ -1399,10 +1102,10 @@ elif st.session_state.current_screen == "stairs":
 
             for (let i = 1; i < 400; i++) {
                 if (Math.random() < 0.38 && i > 2) currentDir = -currentDir;
-                currentX += currentDir * (STAIR_WIDTH - 15);
+                currentX += currentDir * (STAIR_WIDTH - 20);
                 currentY -= STAIR_HEIGHT;
                 const stairType = Math.floor(i / 15) % 4;
-                stairs.push({ x: currentX, y: currentY, dir: currentDir, hasCoin: Math.random() < 0.28, type: stairType });
+                stairs.push({ x: currentX, y: currentY, dir: currentDir, hasCoin: Math.random() < 0.32, type: stairType });
             }
         }
 
@@ -1464,6 +1167,13 @@ elif st.session_state.current_screen == "stairs":
             updateBestDisplay();
         }
 
+        function returnToCharSelect() {
+            gameOver = false;
+            gameActive = false;
+            document.getElementById("charSelectOverlay").style.display = "flex";
+            updateBestDisplay();
+        }
+
         window.addEventListener("keydown", (e) => {
             if (e.key === "z" || e.key === "Z" || e.key === "ㅋ") {
                 if (gameActive && !gameOver && !isBoosterActive) {
@@ -1473,7 +1183,7 @@ elif st.session_state.current_screen == "stairs":
             }
 
             if (gameOver && (e.code === "Space" || e.code === "Enter")) {
-                startGame();
+                returnToCharSelect();
                 e.preventDefault();
                 return;
             }
@@ -1501,8 +1211,7 @@ elif st.session_state.current_screen == "stairs":
 
                 if (targetStair.hasCoin) {
                     targetStair.hasCoin = false;
-                    coinsCollected++;
-                    score += 5;
+                    coinsCollected += 1;
                 }
 
                 if (stairs.length - playerState.stairIndex < 50) {
@@ -1511,10 +1220,10 @@ elif st.session_state.current_screen == "stairs":
                     if (Math.random() < 0.38) nextDir = -nextDir;
                     const nextType = Math.floor(stairs.length / 15) % 4;
                     stairs.push({
-                        x: lastStair.x + nextDir * (STAIR_WIDTH - 15),
+                        x: lastStair.x + nextDir * (STAIR_WIDTH - 20),
                         y: lastStair.y - STAIR_HEIGHT,
                         dir: nextDir,
-                        hasCoin: Math.random() < 0.28,
+                        hasCoin: Math.random() < 0.32,
                         type: nextType
                     });
                 }
@@ -1536,8 +1245,7 @@ elif st.session_state.current_screen == "stairs":
 
                 if (targetStair.hasCoin) {
                     targetStair.hasCoin = false;
-                    coinsCollected++;
-                    score += 5;
+                    coinsCollected += 1;
                 }
 
                 if (stairs.length - playerState.stairIndex < 50) {
@@ -1545,10 +1253,10 @@ elif st.session_state.current_screen == "stairs":
                     let nextDir = lastStair.dir;
                     if (Math.random() < 0.38) nextDir = -nextDir;
                     stairs.push({
-                        x: lastStair.x + nextDir * (STAIR_WIDTH - 15),
+                        x: lastStair.x + nextDir * (STAIR_WIDTH - 20),
                         y: lastStair.y - STAIR_HEIGHT,
                         dir: nextDir,
-                        hasCoin: Math.random() < 0.28,
+                        hasCoin: Math.random() < 0.32,
                         type: Math.floor(stairs.length / 15) % 4
                     });
                 }
@@ -1631,7 +1339,7 @@ elif st.session_state.current_screen == "stairs":
             ctx.translate(canvas.width / 2 - currentStair.x, canvas.height / 2 + 120 - currentStair.y);
 
             stairs.forEach((s, idx) => {
-                if (Math.abs(idx - playerState.stairIndex) > 25) return;
+                if (Math.abs(idx - playerState.stairIndex) > 20) return;
 
                 let topColor = "#94a3b8", sideColor = "#475569";
                 if (s.type === 1) { topColor = "#d97706"; sideColor = "#78350f"; }
@@ -1642,7 +1350,7 @@ elif st.session_state.current_screen == "stairs":
                 ctx.fillRect(s.x - STAIR_WIDTH/2, s.y, STAIR_WIDTH, STAIR_HEIGHT);
 
                 ctx.fillStyle = sideColor;
-                ctx.fillRect(s.x - STAIR_WIDTH/2, s.y + 12, STAIR_WIDTH, STAIR_HEIGHT - 12);
+                ctx.fillRect(s.x - STAIR_WIDTH/2, s.y + 14, STAIR_WIDTH, STAIR_HEIGHT - 14);
 
                 ctx.strokeStyle = "rgba(0,0,0,0.3)";
                 ctx.lineWidth = 2;
@@ -1651,12 +1359,12 @@ elif st.session_state.current_screen == "stairs":
                 if (s.hasCoin) {
                     ctx.fillStyle = "#f59e0b";
                     ctx.beginPath();
-                    ctx.arc(s.x, s.y - 18, 11, 0, Math.PI * 2);
+                    ctx.arc(s.x, s.y - 18, 12, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.fillStyle = "#fef08a";
-                    ctx.font = "bold 12px sans-serif";
+                    ctx.font = "bold 13px sans-serif";
                     ctx.textAlign = "center";
-                    ctx.fillText("★", s.x, s.y - 14);
+                    ctx.fillText("★", s.x, s.y - 13);
                 }
             });
 
@@ -1677,14 +1385,14 @@ elif st.session_state.current_screen == "stairs":
             ctx.fillText(`${score}`, canvas.width / 2, 85);
 
             ctx.fillStyle = "#f59e0b";
-            ctx.font = "bold 15px sans-serif";
+            ctx.font = "bold 16px sans-serif";
             ctx.textAlign = "left";
-            ctx.fillText(`🪙 COINS: ${coinsCollected}`, 20, 40);
+            ctx.fillText(`🪙 모은 코인: ${coinsCollected} 개`, 20, 42);
 
             ctx.fillStyle = "#38bdf8";
-            ctx.font = "bold 15px sans-serif";
+            ctx.font = "bold 16px sans-serif";
             ctx.textAlign = "right";
-            ctx.fillText(`🏆 BEST: ${highScore}`, canvas.width - 20, 40);
+            ctx.fillText(`🏆 최고: ${highScore}`, canvas.width - 20, 42);
 
             if (isBoosterActive) {
                 ctx.fillStyle = "#f1c40f";
@@ -1700,24 +1408,29 @@ elif st.session_state.current_screen == "stairs":
                 ctx.fillStyle = "#f43f5e";
                 ctx.font = "bold 38px sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 50);
+                ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2 - 60);
 
                 if (isNewRecord) {
                     ctx.fillStyle = "#facc15";
                     ctx.font = "bold 20px sans-serif";
-                    ctx.fillText("🎉 축하합니다! 최고 기록 경신!", canvas.width / 2, canvas.height / 2 - 10);
+                    ctx.fillText("🎉 축하합니다! 최고 기록 경신!", canvas.width / 2, canvas.height / 2 - 20);
                 }
 
                 ctx.fillStyle = "#f8fafc";
                 ctx.font = "20px sans-serif";
-                ctx.fillText(`이번 기록: ${score} 계단`, canvas.width / 2, canvas.height / 2 + 25);
-                ctx.fillText(`🏆 최고 기록: ${highScore} 계단`, canvas.width / 2, canvas.height / 2 + 55);
+                ctx.fillText(`이번 오르기: ${score} 계단`, canvas.width / 2, canvas.height / 2 + 15);
+                ctx.fillStyle = "#f59e0b";
+                ctx.fillText(`🪙 모은 코인: +${coinsCollected} 개 (누적: ${totalCoins}개)`, canvas.width / 2, canvas.height / 2 + 50);
 
                 ctx.fillStyle = "#38bdf8";
                 ctx.font = "bold 17px sans-serif";
-                ctx.fillText("[ Spacebar / Enter ] 즉시 다시 시작", canvas.width / 2, canvas.height / 2 + 105);
+                ctx.fillText("[ Spacebar / Enter ] 눌러 캐릭터 다시 고르기", canvas.width / 2, canvas.height / 2 + 100);
             }
         }
+
+        canvas.addEventListener("click", () => {
+            if (gameOver) returnToCharSelect();
+        });
 
         function loop() {
             update();
