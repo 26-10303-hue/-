@@ -26,7 +26,7 @@ if st.session_state.current_screen == "home":
 
     with col1:
         st.subheader("🏎️ 7인 카트 레이싱")
-        st.write("3분 완주 초장거리 트랙! 직관적인 출발 방향 화살표 표시 & 정밀 타이머 측정.")
+        st.write("쉬운 코너부터 헤어핀/S자 난코스까지! 감속과 드리프트가 필수인 리얼 아케이드 레이싱.")
         st.button("🏎️ 레이싱 플레이", on_click=set_screen, args=("racing",), use_container_width=True, type="primary")
 
     with col2:
@@ -40,16 +40,16 @@ if st.session_state.current_screen == "home":
         st.button("🧗‍♂️ 건강의 다리 플레이", on_click=set_screen, args=("stairs",), use_container_width=True, type="primary")
 
 # ==========================================
-# 🏎️ 2. 7인 아이템 카트 레이싱 (3분 완주 초장거리 트랙 & 방향 화살표)
+# 🏎️ 2. 7인 아이템 카트 레이싱 (난이도 구분 트랙 & 테크니컬 핸들링)
 # ==========================================
 elif st.session_state.current_screen == "racing":
     col_nav1, col_nav2 = st.columns([1, 4])
     with col_nav1:
         st.button("🏠 메인으로", on_click=set_screen, args=("home",), use_container_width=True)
     with col_nav2:
-        st.subheader("🏎️ 7인 카트 레이싱 (3분 익스트림 롱 코스)")
+        st.subheader("🏎️ 7인 카트 레이싱 (테크니컬 난이도 트랙)")
 
-    st.caption("조작법 | W: 전진 | S: 후진 | A/D: 회전 | Shift: 드리프트 | Ctrl/Alt: 첫 번째 아이템 사용")
+    st.caption("조작법 | W: 전진 | S: 후진/브레이크 | A/D: 회전 | Shift: 드리프트 | Ctrl/Alt: 아이템 사용")
 
     racing_html = """
     <!DOCTYPE html>
@@ -79,7 +79,7 @@ elif st.session_state.current_screen == "racing":
     <div id="gameContainer">
         <div id="startOverlay">
             <h1 id="mapTitle" style="color:#f1c40f; margin-bottom:5px;">🏁 카트 레이싱</h1>
-            <p id="mapDesc" style="color:#ccc; margin-bottom:15px;">3분 완주 초장거리 트랙! 카운트다운 시 표시되는 출발 화살표 방향으로 진행하세요.</p>
+            <p id="mapDesc" style="color:#ccc; margin-bottom:15px;">⚠️ SLOW 경고 표시 구간에서는 감속 및 드리프트가 필수입니다!</p>
             <div style="display:flex; gap:10px;">
                 <button class="btn-start" onclick="startGame(false)">🏁 경기 시작</button>
                 <button class="btn-start btn-practice" onclick="startGame(true)">🏎️ 혼자 연습하기</button>
@@ -103,25 +103,62 @@ elif st.session_state.current_screen == "racing":
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // 🛣️ 완주 3분 소요 초장거리 웨이포인트 맵 (12000 x 12000 스케일)
+        // 🛣️ 테크니컬 코스 레이아웃 (직선, 직각, 연속 헤어핀/S자 등 완급 조절)
         const MAP_THEMES = [
-            { id: 1, name: "1번 맵: 🌵 사막 대곡선 3분 울트라 서킷", bgColor: "#e67e22", roadColor: "#2c3e50", border: "#f39c12", props: [{x:1000,y:800,icon:"🌵"}, {x:4000,y:2000,icon:"🏜️"}, {x:7000,y:5000,icon:"🏝️"}, {x:2000,y:8000,icon:"🌵"}], waypoints: [{x:800,y:800}, {x:3500,y:800}, {x:5500,y:2000}, {x:4000,y:3800}, {x:2200,y:3000}, {x:1500,y:5000}, {x:3500,y:7000}, {x:6500,y:6500}, {x:8500,y:5000}, {x:7500,y:2800}, {x:9500,y:2000}, {x:10500,y:4800}, {x:9000,y:8000}, {x:6500,y:10000}, {x:3500,y:9500}, {x:1800,y:7500}, {x:800,y:4500}, {x:800,y:800}] },
-            { id: 2, name: "2번 맵: ❄️ 눈꽃 설원 연속 20연속 헤어핀 마라톤", bgColor: "#3498db", roadColor: "#ecf0f1", border: "#2980b9", props: [{x:1200,y:800,icon:"🌲"}, {x:5000,y:2500,icon:"🧊"}, {x:8000,y:6000,icon:"☃️"}], waypoints: [{x:800,y:800}, {x:2800,y:800}, {x:4200,y:2200}, {x:2800,y:3600}, {x:4800,y:4800}, {x:6800,y:3200}, {x:8800,y:4800}, {x:6800,y:6800}, {x:4200,y:5800}, {x:2500,y:7800}, {x:4500,y:9800}, {x:7500,y:9000}, {x:9500,y:7500}, {x:10500,y:4200}, {x:8500,y:1800}, {x:5000,y:800}, {x:800,y:800}] },
-            { id: 3, name: "3번 맵: 🏙️ 네온 메트로폴리스 3분 초장거리 고속도로", bgColor: "#1a0826", roadColor: "#2c2c54", border: "#ff007f", props: [{x:1500,y:600,icon:"🏙️"}, {x:6000,y:3000,icon:"🏢"}, {x:9000,y:7000,icon:"🏬"}], waypoints: [{x:800,y:800}, {x:5000,y:800}, {x:5000,y:3200}, {x:8000,y:3200}, {x:8000,y:6500}, {x:5000,y:6500}, {x:5000,y:4800}, {x:2500,y:4800}, {x:2500,y:8500}, {x:6000,y:8500}, {x:9500,y:9500}, {x:10500,y:6000}, {x:10500,y:2000}, {x:7500,y:800}, {x:800,y:800}] },
-            { id: 4, name: "4번 맵: 🌳 깊은 숲속 무한 다단계 대서킷", bgColor: "#1e4620", roadColor: "#4e3629", border: "#27ae60", props: [{x:1200,y:800,icon:"🌳"}, {x:5000,y:2000,icon:"🍄"}, {x:8000,y:7000,icon:"🌲"}], waypoints: [{x:800,y:800}, {x:4000,y:800}, {x:7000,y:2000}, {x:8500,y:4800}, {x:6500,y:7500}, {x:3500,y:8500}, {x:1500,y:6500}, {x:800,y:3800}, {x:3000,y:2000}, {x:6000,y:3500}, {x:8500,y:2000}, {x:10000,y:5000}, {x:9000,y:9000}, {x:5000,y:10500}, {x:1500,y:9500}, {x:800,y:800}] },
-            { id: 5, name: "5번 맵: 🌋 화산 지옥 3분 복합 메가 크로스", bgColor: "#3d0c02", roadColor: "#1c1c1c", border: "#e74c3c", props: [{x:1000,y:600,icon:"🔥"}, {x:4000,y:2000,icon:"🗿"}, {x:7500,y:5000,icon:"🔥"}], waypoints: [{x:800,y:800}, {x:3000,y:800}, {x:2200,y:2800}, {x:4500,y:2800}, {x:5800,y:1500}, {x:7800,y:3200}, {x:6200,y:5200}, {x:7800,y:7200}, {x:5000,y:8200}, {x:3200,y:6200}, {x:1800,y:7800}, {x:800,y:5200}, {x:2500,y:9800}, {x:6000,y:10500}, {x:9500,y:9000}, {x:10500,y:4500}, {x:8500,y:1200}, {x:800,y:800}] },
-            { id: 6, name: "6번 맵: 🌊 해변 리조트 3분 풀코스 드리프트", bgColor: "#16a085", roadColor: "#f39c12", border: "#1abc9c", props: [{x:1200,y:800,icon:"🌴"}, {x:4500,y:2000,icon:"🏖️"}, {x:7500,y:6000,icon:"🍹"}], waypoints: [{x:800,y:800}, {x:4000,y:800}, {x:6500,y:2500}, {x:8500,y:5000}, {x:6000,y:6800}, {x:4000,y:4800}, {x:2000,y:7000}, {x:800,y:4500}, {x:3000,y:9500}, {x:7000,y:10500}, {x:10000,y:8000}, {x:10500,y:3500}, {x:7500,y:1200}, {x:800,y:800}] },
-            { id: 7, name: "7번 맵: 🌌 우주 은하수 3분 메가 서킷", bgColor: "#0c0826", roadColor: "#341f97", border: "#5f27cd", props: [{x:1500,y:600,icon:"🚀"}, {x:5000,y:2500,icon:"🪐"}, {x:8000,y:6000,icon:"⭐"}], waypoints: [{x:800,y:800}, {x:3500,y:2000}, {x:6000,y:1000}, {x:8500,y:3000}, {x:6800,y:5500}, {x:4500,y:3800}, {x:2500,y:7500}, {x:800,y:5000}, {x:3500,y:10000}, {x:7500,y:9000}, {x:10500,y:7000}, {x:9000,y:3500}, {x:6000,y:800}, {x:800,y:800}] },
-            { id: 8, name: "8번 맵: 🍬 달콤한 캔디랜드 익스트림 마라톤", bgColor: "#fd79a8", roadColor: "#6c5ce7", border: "#e84393", props: [{x:1200,y:800,icon:"🍭"}, {x:5000,y:2200,icon:"🍬"}, {x:8000,y:6000,icon:"🍩"}], waypoints: [{x:800,y:800}, {x:3000,y:800}, {x:4500,y:2500}, {x:6500,y:1000}, {x:8500,y:3800}, {x:6000,y:6000}, {x:3500,y:4800}, {x:1800,y:7800}, {x:800,y:4500}, {x:4000,y:10000}, {x:8000,y:9500}, {x:10500,y:6000}, {x:9000,y:2000}, {x:5000,y:800}, {x:800,y:800}] },
-            { id: 9, name: "9번 맵: 🏰 중세 고성 3분 수호 기사 트랙", bgColor: "#2d3436", roadColor: "#636e72", border: "#d63031", props: [{x:1200,y:800,icon:"🏰"}, {x:4500,y:2000,icon:"🛡️"}, {x:7500,y:6000,icon:"⚔️"}], waypoints: [{x:800,y:800}, {x:4500,y:800}, {x:6000,y:3000}, {x:8500,y:3000}, {x:8500,y:7000}, {x:5500,y:7000}, {x:3500,y:4500}, {x:1800,y:8000}, {x:800,y:4000}, {x:4500,y:10000}, {x:8500,y:10000}, {x:10500,y:6000}, {x:9000,y:1800}, {x:800,y:800}] },
-            { id: 10, name: "10번 맵: ⚡ 사이버펑크 3분 인피니티 트랙", bgColor: "#0f0f1b", roadColor: "#111", border: "#00d2d3", props: [{x:1200,y:800,icon:"⚡"}, {x:5000,y:2500,icon:"🤖"}, {x:8000,y:6000,icon:"👾"}], waypoints: [{x:800,y:800}, {x:3800,y:800}, {x:5800,y:2800}, {x:8800,y:2800}, {x:7200,y:6200}, {x:4200,y:6200}, {x:2800,y:9000}, {x:800,y:5800}, {x:4500,y:10500}, {x:8500,y:9500}, {x:10500,y:5200}, {x:8500,y:1500}, {x:4500,y:800}, {x:800,y:800}] }
+            {
+                id: 1, name: "1번 맵: 🌵 사막 테크니컬 스네이크 서킷", bgColor: "#e67e22", roadColor: "#2c3e50", border: "#f39c12",
+                props: [{x:1500,y:1000,icon:"🌵"}, {x:5000,y:2000,icon:"🏜️"}, {x:7000,y:5000,icon:"🏝️"}],
+                waypoints: [
+                    {x:1000,y:1000, cornerType:"easy"}, {x:6000,y:1000, cornerType:"hard"}, {x:6000,y:3500, cornerType:"hard"},
+                    {x:3000,y:3500, cornerType:"extreme"}, {x:3000,y:6500, cornerType:"hard"}, {x:8500,y:6500, cornerType:"extreme"},
+                    {x:8500,y:9500, cornerType:"easy"}, {x:1500,y:9500, cornerType:"hard"}, {x:1000,y:5000, cornerType:"easy"}, {x:1000,y:1000, cornerType:"easy"}
+                ]
+            },
+            {
+                id: 2, name: "2번 맵: ❄️ 설원 연속 180도 헤어핀 코스", bgColor: "#3498db", roadColor: "#ecf0f1", border: "#2980b9",
+                props: [{x:1200,y:800,icon:"🌲"}, {x:5000,y:2500,icon:"🧊"}, {x:8000,y:6000,icon:"☃️"}],
+                waypoints: [
+                    {x:800,y:1000, cornerType:"easy"}, {x:7000,y:1000, cornerType:"extreme"}, {x:7000,y:3000, cornerType:"extreme"},
+                    {x:2000,y:3000, cornerType:"extreme"}, {x:2000,y:5500, cornerType:"extreme"}, {x:8500,y:5500, cornerType:"hard"},
+                    {x:8500,y:9500, cornerType:"easy"}, {x:1500,y:9500, cornerType:"hard"}, {x:800,y:5000, cornerType:"easy"}, {x:800,y:1000, cornerType:"easy"}
+                ]
+            },
+            {
+                id: 3, name: "3번 맵: 🏙️ 네온 시티 초고속 & 복합 S자 서킷", bgColor: "#1a0826", roadColor: "#2c2c54", border: "#ff007f",
+                props: [{x:1500,y:600,icon:"🏙️"}, {x:6000,y:3000,icon:"🏢"}],
+                waypoints: [
+                    {x:1000,y:1000, cornerType:"easy"}, {x:8500,y:1000, cornerType:"hard"}, {x:8500,y:4000, cornerType:"extreme"},
+                    {x:5000,y:2500, cornerType:"extreme"}, {x:3000,y:5500, cornerType:"hard"}, {x:9000,y:7000, cornerType:"extreme"},
+                    {x:5000,y:10000, cornerType:"easy"}, {x:1000,y:7500, cornerType:"easy"}, {x:1000,y:1000, cornerType:"easy"}
+                ]
+            },
+            {
+                id: 4, name: "4번 맵: 🌳 깊은 숲속 아케이드 콤보 서킷", bgColor: "#1e4620", roadColor: "#4e3629", border: "#27ae60",
+                props: [{x:1200,y:800,icon:"🌳"}, {x:8000,y:7000,icon:"🌲"}],
+                waypoints: [
+                    {x:1200,y:1200, cornerType:"easy"}, {x:7500,y:1200, cornerType:"hard"}, {x:9500,y:3500, cornerType:"extreme"},
+                    {x:6500,y:5500, cornerType:"extreme"}, {x:9500,y:7500, cornerType:"hard"}, {x:5000,y:10000, cornerType:"easy"},
+                    {x:1200,y:7500, cornerType:"hard"}, {x:1200,y:1200, cornerType:"easy"}
+                ]
+            },
+            {
+                id: 5, name: "5번 맵: 🌋 화산 지옥 하드코어 크로스 코스", bgColor: "#3d0c02", roadColor: "#1c1c1c", border: "#e74c3c",
+                props: [{x:1000,y:600,icon:"🔥"}, {x:7500,y:5000,icon:"🗿"}],
+                waypoints: [
+                    {x:1000,y:1000, cornerType:"easy"}, {x:8000,y:1000, cornerType:"extreme"}, {x:2000,y:4000, cornerType:"extreme"},
+                    {x:8000,y:7000, cornerType:"extreme"}, {x:2000,y:10000, cornerType:"easy"}, {x:1000,y:5500, cornerType:"hard"}, {x:1000,y:1000, cornerType:"easy"}
+                ]
+            }
         ];
 
         const PRACTICE_MAP = {
             id: 0, name: "🏎️ 자유 연습 트랙 (기록 저장 가능)",
             bgColor: "#2c3e50", roadColor: "#34495e", border: "#1abc9c",
             props: [{x:1000,y:1000,icon:"🎯"}],
-            waypoints: [{x:800,y:800}, {x:4500,y:800}, {x:4500,y:4500}, {x:800,y:4500}, {x:800,y:800}]
+            waypoints: [
+                {x:1000,y:1000, cornerType:"easy"}, {x:5000,y:1000, cornerType:"hard"},
+                {x:5000,y:5000, cornerType:"extreme"}, {x:1000,y:5000, cornerType:"hard"}, {x:1000,y:1000, cornerType:"easy"}
+            ]
         };
 
         let currentTheme = MAP_THEMES[Math.floor(Math.random() * MAP_THEMES.length)];
@@ -191,17 +228,18 @@ elif st.session_state.current_screen == "racing":
             countdown = 5;
             gameStarted = false;
 
-            // 정방향 각도 세팅 (초기 각도 계산)
             const initAngle = Math.atan2(waypoints[1].y - waypoints[0].y, waypoints[1].x - waypoints[0].x);
 
-            karts = [createKart(0, "나(Player)", colors[0], false, waypoints[0].x, waypoints[0].y, initAngle)];
+            // AI 속도 상향 및 지능 개선 (9.5 ~ 11.2)
+            karts = [createKart(0, "나(Player)", colors[0], false, waypoints[0].x, waypoints[0].y, initAngle, 10.8)];
             if (!isPractice) {
+                const aiSpeeds = [11.2, 10.8, 10.5, 10.2, 9.8, 9.5];
                 for (let i = 1; i < 7; i++) {
                     const offsetSide = (i % 2 === 0 ? 35 : -35);
                     const backDist = i * 35;
                     const startX = waypoints[0].x - Math.cos(initAngle) * backDist - Math.sin(initAngle) * offsetSide;
                     const startY = waypoints[0].y - Math.sin(initAngle) * backDist + Math.cos(initAngle) * offsetSide;
-                    karts.push(createKart(i, `AI ${i}`, colors[i], true, startX, startY, initAngle));
+                    karts.push(createKart(i, `AI ${i}`, colors[i], true, startX, startY, initAngle, aiSpeeds[i-1]));
                 }
             }
             player = karts[0];
@@ -216,14 +254,21 @@ elif st.session_state.current_screen == "racing":
                 if (countdown < 0) {
                     clearInterval(countdownInterval);
                     gameStarted = true;
-                    // ⏱️ 정밀 고해상도 타이머 시작 시점 저장
                     raceStartTimeMs = performance.now();
                 }
             }, 1000);
         }
 
-        function createKart(id, name, color, isAI, startX, startY, startAngle) {
-            return { id: id, name: name, color: color, isAI: isAI, x: startX, y: startY, angle: startAngle, speed: 0, maxSpeed: isAI ? 9.2 + Math.random()*1.2 : 10.2, accel: 0.16, decel: 0.05, turnSensitivity: 0.042, laneOffset: isAI ? (Math.random()-0.5)*90 : 0, targetWayIndex: 1, lap: 1, finished: false, finishTimeStr: "-", finishTimeMs: Infinity, items: [], boostTime: 0, spinTime: 0, skidmarks: [] };
+        function createKart(id, name, color, isAI, startX, startY, startAngle, maxSpeedVal) {
+            return {
+                id: id, name: name, color: color, isAI: isAI,
+                x: startX, y: startY, angle: startAngle, speed: 0,
+                maxSpeed: maxSpeedVal, accel: 0.14, decel: 0.04, turnSensitivity: 0.038, // 핸들링을 묵직하게 조정
+                laneOffset: isAI ? (Math.random()-0.5)*70 : 0, targetWayIndex: 1, lap: 1,
+                finished: false, finishTimeStr: "-", finishTimeMs: Infinity, items: [],
+                boostTime: 0, spinTime: 0, skidmarks: [],
+                stuckTimer: 0, reverseTimer: 0
+            };
         }
 
         const colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#e67e22", "#1abc9c"];
@@ -248,7 +293,6 @@ elif st.session_state.current_screen == "racing":
             return { distance: minDistance, projX: closestProjX, projY: closestProjY };
         }
 
-        // ⏱️ 정밀 타이머 포맷 함수
         function formatTime(ms) {
             const totalSec = ms / 1000;
             const mins = Math.floor(totalSec / 60);
@@ -270,7 +314,6 @@ elif st.session_state.current_screen == "racing":
         function update() {
             if (!gameStarted || raceEnded) return;
             
-            // ⏱️ 정확한 경과 시간(ms) 측정
             const currentMs = performance.now() - raceStartTimeMs;
             elapsedRaceTime = formatTime(currentMs);
 
@@ -280,36 +323,69 @@ elif st.session_state.current_screen == "racing":
                 if (k.spinTime > 0) { k.spinTime--; k.speed *= 0.85; k.angle += 0.3; return; }
 
                 if (k.isAI) {
-                    const target = waypoints[k.targetWayIndex];
-                    let angleDiff = Math.atan2(target.y + k.laneOffset - k.y, target.x + k.laneOffset - k.x) - k.angle;
-                    while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
-                    while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
-                    k.angle += Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), k.turnSensitivity);
-                    if (k.speed < k.maxSpeed * 0.9) k.speed += k.accel;
-                    if (Math.hypot(target.x - k.x, target.y - k.y) < 300) {
-                        k.targetWayIndex++;
-                        if (k.targetWayIndex >= waypoints.length) { 
-                            k.targetWayIndex = 1; k.lap++; 
-                            if (k.lap > 3 && !k.finished) { 
-                                k.finished = true; 
-                                k.finishTimeStr = elapsedRaceTime; 
-                                k.finishTimeMs = currentMs; 
-                                checkFirstFinish(k.name); 
-                            } 
+                    if (k.reverseTimer > 0) {
+                        k.reverseTimer--;
+                        k.speed = -k.maxSpeed * 0.4;
+                        k.angle += 0.05;
+                    } else {
+                        const target = waypoints[k.targetWayIndex];
+                        let angleDiff = Math.atan2(target.y + k.laneOffset - k.y, target.x + k.laneOffset - k.x) - k.angle;
+                        while (angleDiff < -Math.PI) angleDiff += Math.PI * 2;
+                        while (angleDiff > Math.PI) angleDiff -= Math.PI * 2;
+                        
+                        // AI 급코너 감속 시뮬레이션
+                        let targetSpeed = k.maxSpeed;
+                        if (target.cornerType === "extreme") targetSpeed *= 0.6;
+                        else if (target.cornerType === "hard") targetSpeed *= 0.8;
+
+                        k.angle += Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), k.turnSensitivity * (target.cornerType === "extreme" ? 1.3 : 1.0));
+                        
+                        if (k.speed < targetSpeed) k.speed += k.accel;
+                        else if (k.speed > targetSpeed) k.speed -= k.decel * 2;
+
+                        if (Math.abs(k.speed) < 1.0) {
+                            k.stuckTimer++;
+                            if (k.stuckTimer > 60) {
+                                k.reverseTimer = 45;
+                                k.stuckTimer = 0;
+                            }
+                        } else {
+                            k.stuckTimer = 0;
+                        }
+
+                        if (Math.hypot(target.x - k.x, target.y - k.y) < 350) {
+                            k.targetWayIndex++;
+                            if (k.targetWayIndex >= waypoints.length) { 
+                                k.targetWayIndex = 1; k.lap++; 
+                                if (k.lap > 3 && !k.finished) { 
+                                    k.finished = true; 
+                                    k.finishTimeStr = elapsedRaceTime; 
+                                    k.finishTimeMs = currentMs; 
+                                    checkFirstFinish(k.name); 
+                                } 
+                            }
                         }
                     }
                     if (k.items.length > 0 && Math.random() < 0.01) useItem(k);
                 } else {
+                    // 유저 컨트롤러 (감속/브레이크 및 드리프트 감각 개선)
                     if (keys.w) k.speed = Math.min(k.maxSpeed, k.speed + k.accel);
-                    else if (keys.s) k.speed = Math.max(-k.maxSpeed * 0.4, k.speed - k.accel * 1.5);
+                    else if (keys.s) k.speed = Math.max(-k.maxSpeed * 0.4, k.speed - k.accel * 2.2); // 강한 브레이크 기능
                     else { if (k.speed > 0) k.speed = Math.max(0, k.speed - k.decel); if (k.speed < 0) k.speed = Math.min(0, k.speed + k.decel); }
 
                     let turnSpeed = k.turnSensitivity;
-                    if (keys.shift && (keys.a || keys.d)) { turnSpeed = 0.065; k.speed *= 0.988; k.skidmarks.push({ x: k.x, y: k.y, alpha: 1.0 }); }
+                    if (keys.shift && (keys.a || keys.d)) { 
+                        turnSpeed = 0.068; // 드리프트 시 빠른 각도 변경
+                        k.speed *= 0.982; // 드리프트 마찰 저항
+                        k.skidmarks.push({ x: k.x, y: k.y, alpha: 1.0 }); 
+                    } else if (k.speed > k.maxSpeed * 0.75) {
+                        turnSpeed *= 0.85; // 고속 주행 시 언더스티어 현상 부여 (속도 조절 필요)
+                    }
+
                     if (keys.a) k.angle -= turnSpeed; if (keys.d) k.angle += turnSpeed;
 
                     const target = waypoints[k.targetWayIndex];
-                    if (Math.hypot(target.x - k.x, target.y - k.y) < 300) {
+                    if (Math.hypot(target.x - k.x, target.y - k.y) < 350) {
                         k.targetWayIndex++;
                         if (k.targetWayIndex >= waypoints.length) {
                             k.targetWayIndex = 1; k.lap++;
@@ -324,16 +400,16 @@ elif st.session_state.current_screen == "racing":
                     }
                 }
 
-                if (k.boostTime > 0) { k.boostTime--; k.speed = k.maxSpeed * 1.45; }
+                if (k.boostTime > 0) { k.boostTime--; k.speed = k.maxSpeed * 1.4; }
 
                 let nextX = k.x + Math.cos(k.angle) * k.speed;
                 let nextY = k.y + Math.sin(k.angle) * k.speed;
                 const trackInfo = getDistanceToTrack(nextX, nextY);
-                if (trackInfo.distance > 120) {
+                if (trackInfo.distance > 115) {
                     const pushAngle = Math.atan2(nextY - trackInfo.projY, nextX - trackInfo.projX);
-                    nextX = trackInfo.projX + Math.cos(pushAngle) * 120;
-                    nextY = trackInfo.projY + Math.sin(pushAngle) * 120;
-                    k.speed *= 0.6;
+                    nextX = trackInfo.projX + Math.cos(pushAngle) * 115;
+                    nextY = trackInfo.projY + Math.sin(pushAngle) * 115;
+                    k.speed *= 0.55; // 코스 이탈 시 감속 강화
                 }
                 k.x = nextX; k.y = nextY;
 
@@ -402,22 +478,59 @@ elif st.session_state.current_screen == "racing":
 
             ctx.save(); ctx.translate(canvas.width / 2 - player.x, canvas.height / 2 - player.y);
 
-            ctx.strokeStyle = currentTheme.roadColor; ctx.lineWidth = 240; ctx.lineCap = "round"; ctx.lineJoin = "round";
+            // 트랙 렌더링
+            ctx.strokeStyle = currentTheme.roadColor; ctx.lineWidth = 230; ctx.lineCap = "round"; ctx.lineJoin = "round";
             ctx.beginPath(); ctx.moveTo(waypoints[0].x, waypoints[0].y);
             for (let i = 1; i < waypoints.length; i++) ctx.lineTo(waypoints[i].x, waypoints[i].y);
             ctx.stroke();
 
-            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 246; ctx.stroke();
-            ctx.strokeStyle = currentTheme.border; ctx.lineWidth = 240; ctx.setLineDash([35, 35]); ctx.stroke(); ctx.setLineDash([]);
-            ctx.strokeStyle = currentTheme.roadColor; ctx.lineWidth = 230; ctx.stroke();
+            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 236; ctx.stroke();
+            ctx.strokeStyle = currentTheme.border; ctx.lineWidth = 230; ctx.setLineDash([35, 35]); ctx.stroke(); ctx.setLineDash([]);
+            ctx.strokeStyle = currentTheme.roadColor; ctx.lineWidth = 220; ctx.stroke();
             ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 5; ctx.setLineDash([25, 25]); ctx.stroke(); ctx.setLineDash([]);
             
+            // 🧭 난이도별 코너 구간 감속 경고 및 노면 신호등 표시
+            for (let i = 0; i < waypoints.length - 1; i++) {
+                const p1 = waypoints[i], p2 = waypoints[i+1];
+                const ang = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+                const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+                
+                // 코너 진입 직전 SLOW 경고 표시
+                if (p2.cornerType === "extreme" || p2.cornerType === "hard") {
+                    const warnX = p2.x - Math.cos(ang) * 350;
+                    const warnY = p2.y - Math.sin(ang) * 350;
+                    ctx.save();
+                    ctx.translate(warnX, warnY);
+                    ctx.rotate(ang + Math.PI/2);
+                    ctx.fillStyle = p2.cornerType === "extreme" ? "#ef4444" : "#eab308";
+                    ctx.font = "bold 32px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText(p2.cornerType === "extreme" ? "⚠️ SLOW [급코너]" : "⚠️ CAUTION", 0, 0);
+                    ctx.restore();
+                }
+
+                // 일반 진행 화살표
+                const step = 450;
+                for (let d = 200; d < dist - 200; d += step) {
+                    const arrowX = p1.x + Math.cos(ang) * d;
+                    const arrowY = p1.y + Math.sin(ang) * d;
+                    ctx.save();
+                    ctx.translate(arrowX, arrowY);
+                    ctx.rotate(ang);
+                    ctx.fillStyle = "rgba(241, 196, 15, 0.5)";
+                    ctx.font = "bold 40px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText(">>>", 0, 14);
+                    ctx.restore();
+                }
+            }
+
             // 출발선 렌더링
             const startAng = Math.atan2(waypoints[1].y - waypoints[0].y, waypoints[1].x - waypoints[0].x);
             ctx.save();
             ctx.translate(waypoints[0].x, waypoints[0].y);
             ctx.rotate(startAng + Math.PI/2);
-            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 20; ctx.beginPath(); ctx.moveTo(-115, 0); ctx.lineTo(115, 0); ctx.stroke();
+            ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 20; ctx.beginPath(); ctx.moveTo(-110, 0); ctx.lineTo(110, 0); ctx.stroke();
             ctx.restore();
 
             currentTheme.props.forEach(p => { ctx.font = "40px sans-serif"; ctx.textAlign = "center"; ctx.fillText(p.icon, p.x, p.y); });
@@ -440,7 +553,6 @@ elif st.session_state.current_screen == "racing":
                 ctx.fillStyle = k.color; ctx.beginPath(); ctx.roundRect(-18, -12, 36, 24, 6); ctx.fill();
                 ctx.fillStyle = "#111"; ctx.fillRect(-14, -15, 9, 4); ctx.fillRect(5, -15, 9, 4); ctx.fillRect(-14, 11, 9, 4); ctx.fillRect(5, 11, 9, 4);
                 
-                // 🧭 카운트다운 출발 방향 안내 대형 화살표 렌더링
                 if (countdown >= 0 && k.id === player.id) {
                     ctx.fillStyle = "#ef4444";
                     ctx.beginPath();
@@ -453,7 +565,6 @@ elif st.session_state.current_screen == "racing":
             });
             ctx.restore();
 
-            // 🧭 화면 중앙 직관적인 출발 방향 텍스트 안내
             if (countdown > 0) { 
                 ctx.fillStyle = "rgba(0,0,0,0.55)"; ctx.fillRect(0,0,canvas.width,canvas.height); 
                 ctx.fillStyle = "#facc15"; ctx.font = "bold 80px sans-serif"; ctx.textAlign = "center"; ctx.fillText(countdown, canvas.width/2, canvas.height/2 - 10); 
@@ -478,7 +589,6 @@ elif st.session_state.current_screen == "racing":
                 }
             }
 
-            // 미니맵 스케일 (12000px 초장거리 트랙에 비례 대응)
             const mapX = canvas.width - 140, mapY = canvas.height - 140, mapSize = 120;
             ctx.fillStyle = "rgba(0,0,0,0.85)"; ctx.fillRect(mapX, mapY, mapSize, mapSize);
             ctx.strokeStyle = "rgba(255,255,255,0.5)"; ctx.lineWidth = 3; ctx.beginPath();
@@ -519,7 +629,7 @@ elif st.session_state.current_screen == "racing":
     components.html(racing_html, height=560)
 
 # ==========================================
-# 🚗 3. 도시 자동차 장애물 피하기 (콘크리트 천장 디자인 반영)
+# 🚗 3. 도시 자동차 장애물 피하기
 # ==========================================
 elif st.session_state.current_screen == "obstacle":
     col_nav1, col_nav2 = st.columns([1, 4])
